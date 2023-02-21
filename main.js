@@ -3,23 +3,18 @@ import './style.css'
 
 import * as THREE from 'three';
 const scene = new THREE.Scene();
-//import { BufferGeometry, BoxBufferGeometry, Matrix4, Mesh, Vector3 } from 'three';
+
 
 import { FontLoader } from 'three/examples/jsm/loaders/FontLoader.js';
 
 import { TextGeometry } from 'three/addons/geometries/TextGeometry.js';
 
-//import * as fontt from './fontfont.json'
-
 
 import { SVGLoader } from 'three/examples/jsm/loaders/SVGLoader.js';
 
 
-
-
 import * as fontt from 'three/examples/fonts/gentilis_bold.typeface.json'
 
-//import * as fontt from 'three/examples/fonts/optimer_bold.typeface'
 
 var raycaster = new THREE.Raycaster();
 var intersects = raycaster.intersectObjects(scene.children);
@@ -30,9 +25,6 @@ let font = loader.parse(fontt)
 
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 const textureLoader = new THREE.TextureLoader();
-//const redlettermaterial = new THREE.MeshStandardMaterial({ map: textureLoader.load('suntexture.png') });
-//const lettermaterial = new THREE.MeshStandardMaterial({ color: 0x444499 });
-
 
 
 var www = window.innerWidth
