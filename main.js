@@ -5,12 +5,8 @@ import * as THREE from 'three';
 const scene = new THREE.Scene();
 
 import { FontLoader } from 'three/examples/jsm/loaders/FontLoader.js';
-
 import { TextGeometry } from 'three/addons/geometries/TextGeometry.js';
-
-
 import { SVGLoader } from 'three/examples/jsm/loaders/SVGLoader.js';
-
 
 import * as fontt from 'three/examples/fonts/gentilis_bold.typeface.json'
 
@@ -26,13 +22,10 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 const textureLoader = new THREE.TextureLoader();
 
 
-var www = window.innerWidth
-var hhh = window.innerHeight
-var aspectratio = www / hhh
-const camera = new THREE.PerspectiveCamera(75, aspectratio, 0.1, 1000);
-
-if (www < 750) { camera.fov=95 }
-
+var www
+var hhh
+var aspectratio
+const camera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000);
 
 
 
@@ -40,9 +33,6 @@ const renderer = new THREE.WebGLRenderer({
     canvas: document.querySelector('#bg'),
     //antialias: true,
 });
-
-renderer.setPixelRatio(window.devicePixelRatio);
-renderer.setSize(www, hhh);
 
 
 window.addEventListener('resize', onWindowResize, false);
@@ -58,8 +48,12 @@ function onWindowResize() {
     if (www >= 750) { camera.fov = 75 }
     camera.updateProjectionMatrix();
    
-    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setSize(www, hhh);
+    renderer.setPixelRatio(window.devicePixelRatio);
 }
+
+
+onWindowResize()
 
 // this function contains the creation of a miniature table that will be replaced by a glb model
 // in real life applications
