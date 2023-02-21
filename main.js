@@ -4,7 +4,6 @@ import './style.css'
 import * as THREE from 'three';
 const scene = new THREE.Scene();
 
-
 import { FontLoader } from 'three/examples/jsm/loaders/FontLoader.js';
 
 import { TextGeometry } from 'three/addons/geometries/TextGeometry.js';
@@ -62,14 +61,8 @@ function onWindowResize() {
     renderer.setSize(window.innerWidth, window.innerHeight);
 }
 
-
-var edgeMaterial = new THREE.LineDashedMaterial({
-    color: 0xcccccc
-});
-
-
-const minioulu = miniaturetable(edgeMaterial, './ouluitems/ouluplane.png')
-scene.add(minioulu)
+// this function contains the creation of a miniature table that will be replaced by a glb model
+// in real life applications
 function miniaturetable(edgeMaterial, pathtoplane) {
 
     const minioulu = new THREE.Group();
@@ -101,7 +94,6 @@ function miniaturetable(edgeMaterial, pathtoplane) {
             edge.rotation.y = Math.PI / 2;
         }
 
-        // edges.push(edge);
         minioulu.add(edge)
 
     }
@@ -150,6 +142,20 @@ function miniaturetable(edgeMaterial, pathtoplane) {
 
     return minioulu
 }
+
+
+
+
+
+var edgeMaterial = new THREE.LineDashedMaterial({
+    color: 0xcccccc
+});
+
+
+
+const minioulu = miniaturetable(edgeMaterial, './ouluitems/ouluplane.png')
+scene.add(minioulu)
+
 
 const followObject = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), edgeMaterial);
 
