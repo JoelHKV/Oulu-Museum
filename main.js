@@ -63,106 +63,93 @@ function onWindowResize() {
 }
 
 
-
-
-var vitrineMaterial = new THREE.MeshBasicMaterial({
-    color: 0xffffff,
-    transparent: true,
-    opacity: 0.3
-});
-var vitrineGeometry = new THREE.BoxGeometry(5, 5, 0.5);
-
-var vitrine = new THREE.Mesh(vitrineGeometry, vitrineMaterial);
-
-vitrine.rotation.x = Math.PI / 2;
-vitrine.position.y = -0.8;
-
-const minioulu = new THREE.Group();
-
-minioulu.add(vitrine)
-
-
-
 var edgeMaterial = new THREE.LineDashedMaterial({
     color: 0xcccccc
 });
 
 
-
-var edgeGeometry = new THREE.BoxGeometry(1, 1, 1);
-
-var xxx=[-5, 5, 0 , 0]
-var yyy = [0, 0, -5, 5]
-
-for (let i = 0; i < 4; i++) {
-
-    var edge = new THREE.Mesh(edgeGeometry, edgeMaterial);
-    edge.position.set(xxx[i]/2, -0.5, yyy[i]/2);
-    edge.scale.set(5, 0.05, 0.05);
-    if (i < 2) {
-        edge.rotation.y = Math.PI/2;
-    }
-    
-   // edges.push(edge);
-    minioulu.add(edge)
-
-
- 
-   
-}
-
-var sric = 0.025
-var xxx2 = [-5 + sric, 5 - sric, -5 + sric, 5 - sric]
-var yyy2 = [-5 + sric, -5 + sric, 5 - sric, 5 - sric]
-
-for (let i = 0; i < 4; i++) {
-
-    var edge = new THREE.Mesh(edgeGeometry, edgeMaterial);
-    edge.position.set(xxx2[i] / 2, -0.75, yyy2[i] / 2);
-    edge.scale.set(0.05, 0.55, 0.05);
-    edge.rotation.y = Math.PI;
-   // edges.push(edge);
-
-    minioulu.add(edge)
-
-    var cylinder = new THREE.Mesh(new THREE.CylinderGeometry(0.2, 0.2, 4, 32), edgeMaterial);
-    cylinder.position.y = -2.5
-    cylinder.position.x = xxx2[i] / 2
-    cylinder.position.z = yyy2[i] / 2
-    minioulu.add(cylinder)
-
-
-}
-
-
-
-//edgeMaterial
-
-var topPlane = new THREE.Mesh(
-    new THREE.BoxGeometry(5.01, 5.01, 0.1),
-    new THREE.MeshBasicMaterial({
-        color: 0xcccccc,
-        transparent: true,
-        opacity: 1
-    })
-);
-topPlane.position.y = -1.01;
-topPlane.rotation.x = Math.PI / 2;
-
-const tableGeometry = new THREE.BoxGeometry(5, 5, 0.1);
-const ouluMaterial = new THREE.MeshStandardMaterial({ map: textureLoader.load('./ouluitems/ouluplane.png') });
-const oulutable = new THREE.Mesh(tableGeometry, ouluMaterial);
-oulutable.position.y = -1;
-oulutable.rotation.x = Math.PI / 2;
-
-
-minioulu.add(oulutable, topPlane)
+const minioulu = miniaturetable(edgeMaterial, './ouluitems/ouluplane.png')
 scene.add(minioulu)
+function miniaturetable(edgeMaterial, pathtoplane) {
 
-minioulu.rotation.y = Math.PI
-//scene.add(oulutable, topPlane)
+    const minioulu = new THREE.Group();
+    var vitrineMaterial = new THREE.MeshBasicMaterial({
+        color: 0xffffff,
+        transparent: true,
+        opacity: 0.3
+    });
+    var vitrineGeometry = new THREE.BoxGeometry(5, 5, 0.5);
 
+    var vitrine = new THREE.Mesh(vitrineGeometry, vitrineMaterial);
 
+    vitrine.rotation.x = Math.PI / 2;
+    vitrine.position.y = -0.8;
+
+    minioulu.add(vitrine)
+
+    var edgeGeometry = new THREE.BoxGeometry(1, 1, 1);
+
+    var xxx = [-5, 5, 0, 0]
+    var yyy = [0, 0, -5, 5]
+
+    for (let i = 0; i < 4; i++) {
+
+        var edge = new THREE.Mesh(edgeGeometry, edgeMaterial);
+        edge.position.set(xxx[i] / 2, -0.5, yyy[i] / 2);
+        edge.scale.set(5, 0.05, 0.05);
+        if (i < 2) {
+            edge.rotation.y = Math.PI / 2;
+        }
+
+        // edges.push(edge);
+        minioulu.add(edge)
+
+    }
+
+    var sric = 0.025
+    var xxx2 = [-5 + sric, 5 - sric, -5 + sric, 5 - sric]
+    var yyy2 = [-5 + sric, -5 + sric, 5 - sric, 5 - sric]
+
+    for (let i = 0; i < 4; i++) {
+
+        var edge = new THREE.Mesh(edgeGeometry, edgeMaterial);
+        edge.position.set(xxx2[i] / 2, -0.75, yyy2[i] / 2);
+        edge.scale.set(0.05, 0.55, 0.05);
+        edge.rotation.y = Math.PI;
+        // edges.push(edge);
+
+        minioulu.add(edge)
+
+        var cylinder = new THREE.Mesh(new THREE.CylinderGeometry(0.2, 0.2, 4, 32), edgeMaterial);
+        cylinder.position.y = -2.5
+        cylinder.position.x = xxx2[i] / 2
+        cylinder.position.z = yyy2[i] / 2
+        minioulu.add(cylinder)
+
+    }
+
+    var topPlane = new THREE.Mesh(
+        new THREE.BoxGeometry(5.01, 5.01, 0.1),
+        new THREE.MeshBasicMaterial({
+            color: 0xcccccc,
+            transparent: true,
+            opacity: 1
+        })
+    );
+    topPlane.position.y = -1.01;
+    topPlane.rotation.x = Math.PI / 2;
+
+    const tableGeometry = new THREE.BoxGeometry(5, 5, 0.1);
+    const ouluMaterial = new THREE.MeshStandardMaterial({ map: textureLoader.load(pathtoplane) });
+    const oulutable = new THREE.Mesh(tableGeometry, ouluMaterial);
+    oulutable.position.y = -1;
+    oulutable.rotation.x = Math.PI / 2;
+
+    minioulu.add(oulutable, topPlane)
+    minioulu.rotation.y = Math.PI
+
+    return minioulu
+}
 
 const followObject = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), edgeMaterial);
 
