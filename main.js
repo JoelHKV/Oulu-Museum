@@ -77,39 +77,39 @@ const doors = []
 
 function wallwithdoorhole(wallMaterial, textcontainer, i) {
 
-    var roomx = 10
-    var roomy = 10
+    var doorwidth = 4.5
+    var doorheight = 7
 
-    const roomGeometry2 = new THREE.BoxGeometry(roomx - 7, roomy, 1);
-    const roomGeometry3 = new THREE.BoxGeometry(roomx, roomy - 7, 1);
-    const doorGeometry = new THREE.BoxGeometry(4, 7, 1);
+    const roomGeometry2 = new THREE.BoxGeometry((roomxx - doorwidth)/2, roomyy, 1);
+    const roomGeometry3 = new THREE.BoxGeometry(roomxx, roomyy - doorheight, 1);
+    const doorGeometry = new THREE.BoxGeometry(doorwidth, doorheight, 1);
 
     const wallhole = new THREE.Group();
-
+    
     const walla = new THREE.Mesh(roomGeometry2, wallMaterial);
-    walla.position.x += 3.5
+    walla.position.x = 3.5
 
     const wallb = new THREE.Mesh(roomGeometry2, wallMaterial);
-    wallb.position.x -= 3.5
+    wallb.position.x = -3.5
 
     const wallc = new THREE.Mesh(roomGeometry3, wallMaterial);
-    wallc.position.y += 3.5
+    wallc.position.y += doorheight /2
 
     const thisdoor = new THREE.Group();
 
     if (i == 0) {
         const door = new THREE.Mesh(doorGeometry, doormaterial);
-        door.position.y -= 1.5
+        door.position.y -= (roomyy - doorheight) / 2
         door.position.z += 0.5
-        door.position.x -= 2
+        door.position.x -= doorwidth / 2
 
         thisdoor.add(door)
         const thistext = Writewrite(textcontainer[0], textmaterial, 0, 0, 0, 1, 1,  0.004)
         const thistext2 = Writewrite(textcontainer[1], textmaterial, 0, -0.5, 0, 1, 1, 0.004)
         const thistext3 = Writewrite('Aula', textmaterial, 0, -0.25, 0, 1, 1, 0.004)
-        thistext.position.x -= 2
-        thistext2.position.x -= 2
-        thistext3.position.x -= 2
+        thistext.position.x -= doorwidth / 2
+        thistext2.position.x -= doorwidth / 2
+        thistext3.position.x -= doorwidth / 2
         thistext.rotation.y = Math.PI
         thistext2.rotation.y = Math.PI
         thistext3.position.z += 1
@@ -117,7 +117,7 @@ function wallwithdoorhole(wallMaterial, textcontainer, i) {
         thisdoor.add(thistext)
         thisdoor.add(thistext2)
         thisdoor.add(thistext3)
-        thisdoor.position.x += 2
+        thisdoor.position.x += doorwidth / 2
 
         door.name = textcontainer[0]
         thistext.name = textcontainer[0]
@@ -132,7 +132,6 @@ function wallwithdoorhole(wallMaterial, textcontainer, i) {
 }   
 
 
-
 var spotLights = []
 for (let i = 0; i < 5; i++) {
     spotLights[i] = new THREE.SpotLight(0xffffff, 0.6);
@@ -142,7 +141,6 @@ for (let i = 0; i < 5; i++) {
     scene.add(spotLights[i]);
     spotLights[i].visible = false
 }
-
 
 spotLights[4].position.x = 0
 spotLights[4].position.y = 3
@@ -256,7 +254,7 @@ for (let i = 0; i < 4; i++) {
             var thiswall = wallwithdoorhole(thismaterial, ['Mini-', 'Oulu'], i) 
         }     
         if (Number(arr[1]) == 0) {
-            var thiswallGeometry = new THREE.BoxGeometry(wallw[j], wallh[j], 1);
+            var thiswallGeometry = new THREE.BoxGeometry(1+wallw[j], 1+wallh[j], 1);
             var thiswall = new THREE.Mesh(thiswallGeometry, thismaterial);
           
         }
