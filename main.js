@@ -149,9 +149,9 @@ function wallwithdoorhole(wallMaterial,textcontainer,i) {
         door.position.x -= 2
 
         thisdoor.add(door)
-        const thistext = Writewrite(textcontainer[0], textmaterial, 0, 0, 0, 1, 1, 0)
-        const thistext2 = Writewrite(textcontainer[1], textmaterial, 0, -0.5, 0, 1, 1, 0)
-        const thistext3 = Writewrite('Aula', textmaterial, 0, -0.25, 0, 1, 1, 0)
+        const thistext = Writewrite(textcontainer[0], textmaterial, 0, 0, 0, 1, 1,  0.004)
+        const thistext2 = Writewrite(textcontainer[1], textmaterial, 0, -0.5, 0, 1, 1, 0.004)
+        const thistext3 = Writewrite('Aula', textmaterial, 0, -0.25, 0, 1, 1, 0.004)
         thistext.position.x -= 2
         thistext2.position.x -= 2
         thistext3.position.x -= 2
@@ -175,16 +175,6 @@ function wallwithdoorhole(wallMaterial,textcontainer,i) {
 
 }   
 
-const title = new THREE.Group();
-
-title.add(Writewrite('Pohjois-', textmaterial, 0, 0.75, 0, 1, 1, 0))
-title.add(Writewrite('Pohjanmaan', textmaterial, 0, 0.25, 0, 1, 1, 0))
-title.add(Writewrite('museo', textmaterial, 0, -0.35, 0, 1, 1, 0))
-title.rotation.y=Math.PI
-title.position.z -= 4.4
-title.position.y +=1.5
-title.scale.setScalar(1.8)
-scene.add(title)
 
 
 var spotLights = []
@@ -206,9 +196,9 @@ spotLights[3].angle = 0.07
 
 
 // Create a frame geometry
-var frameGeometry = new THREE.BoxGeometry(5.2, 4.2, 1.1);
+var frameGeometry = new THREE.BoxGeometry(5.2, 5.2, 1.1);
 //var frameGeometry = new THREE.BoxGeometry(5.6, 4.5, 1.1);
-var paintingGeometry = new THREE.BoxGeometry(4.8, 3.8, 1.11);
+var paintingGeometry = new THREE.BoxGeometry(4.8, 4.8, 1.11);
 var frameMaterial = new THREE.MeshLambertMaterial({ color: 0x000000 });
 
 
@@ -220,23 +210,6 @@ var paintingMaterial = []
 var paingints = []
 //var paintingfiles = ['/art_pieces/tarburning.png', '/art_pieces/riverfishing.png', '/art_pieces/oldhouse.png', '/art_pieces/Franzen.png', '/oulufinland.png']
 var paintingfiles = ['./ouluitems/oldhouse2.png', './ouluitems/riverfishing.png', './ouluitems/riverburning.png', './ouluitems/Franzen.png', './ouluitems/oulufinland.png', './ouluitems/starttext.png', './ouluitems/tauno.jpg']
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -281,14 +254,139 @@ scene.add(naviball)
 
 
 
+var roomxx = 10
+var roomyy = 10
+var roomzz = 10
+
+var wallw = [roomxx, roomxx, roomxx, roomzz, roomzz, roomxx]
+var wallh = [roomzz, roomyy, roomyy, roomyy, roomyy, roomzz]
+
+
+const roommaterials =[]
+
+roommaterials[0] = new THREE.MeshStandardMaterial({ map: textureLoader.load('./ouluitems/floor-texture.png') });
+roommaterials[1] = new THREE.MeshStandardMaterial({ map: textureLoader.load('./ouluitems/ceiling-texture2.png') });
+roommaterials[2] = new THREE.MeshStandardMaterial({ color: 0x988064 });
+roommaterials[3] = new THREE.MeshStandardMaterial({ map: textureLoader.load('./ouluitems/brickwall.png') });
+roommaterials[4] = new THREE.MeshStandardMaterial({ map: textureLoader.load('./ouluitems/concretewall.png') });
+
+//wallMaterials[0] = new THREE.MeshStandardMaterial({ color: 0x988064 });
+//wallMaterials[1] = new THREE.MeshStandardMaterial({ color: 0x000055 });
+//wallMaterials[2] = new THREE.MeshStandardMaterial({ map: textureLoader.load('./ouluitems/brickwall.png') });
+//wallMaterials[3] = new THREE.MeshStandardMaterial({ map: textureLoader.load('./ouluitems/concretewall.png') });
+//wallMaterials[4] = new THREE.MeshStandardMaterial({ map: textureLoader.load('./ouluitems/concretewall.png') });
+
+//var paintingfiles = ['./ouluitems/oldhouse2.png', './ouluitems/riverfishing.png', './ouluitems/riverburning.png', './ouluitems/Franzen.png', './ouluitems/oulufinland.png', './ouluitems/starttext.png', './ouluitems/tauno.jpg']
+
+
+const paintingmaterials = []
+
+paintingmaterials[0] = new THREE.MeshStandardMaterial({ map: textureLoader.load('./ouluitems/oldhouse2.png') });
+paintingmaterials[1] = new THREE.MeshStandardMaterial({ map: textureLoader.load('./ouluitems/riverfishing.png') });
+paintingmaterials[2] = new THREE.MeshStandardMaterial({ map: textureLoader.load('./ouluitems/riverburning.png') });
+paintingmaterials[3] = new THREE.MeshStandardMaterial({ map: textureLoader.load('./ouluitems/oulufinland.png') });
+paintingmaterials[4] = new THREE.MeshStandardMaterial({ map: textureLoader.load('./ouluitems/starttext.png') });
+paintingmaterials[5] = new THREE.MeshStandardMaterial({ map: textureLoader.load('./ouluitems/tauno.jpg') });
 
 
 
+const roomcontent = new Array(1);
 
-function circleshow(state) {
-    for (let i = 0; i < 3; i++) {
-        circle[i].visible = state
+for (let i = 0; i < 1; i++) {
+    roomcontent[i] = new Array(6);
+
+    for (let j = 0; j < 6; j++) {
+        // Calculate the value for each element based on its row and column
+        if (j == 0) { roomcontent[i][j] = '0' }
+        if (j == 5) { roomcontent[i][j] = '1' }
+        if (j > 0 && j < 5 ) { roomcontent[i][j] = '2' }
+        
     }
+}
+
+roomcontent[0][1] = roomcontent[0][1] + ',1'
+roomcontent[0][2] = roomcontent[0][2] + ',1'
+roomcontent[0][3] = roomcontent[0][3] + ',1'
+
+roomcontent[0][4] = roomcontent[0][4] + ',T_0_3_0.008_Pohjois-'
+roomcontent[0][4] = roomcontent[0][4] + ',T_0_2_0.008_Pohjanmaan'
+roomcontent[0][4] = roomcontent[0][4] + ',T_0_0.8_0.008_museo'
+roomcontent[0][4] = roomcontent[0][4] + ',T_-2.7_-3.4_0.003_Tauno Tonning'
+
+roomcontent[0][4] = roomcontent[0][4] + ',P_-2_-2_0.5_0.5_5'
+
+const rooms = [];
+
+for (let i = 0; i < 1; i++) {
+    rooms[i] = new THREE.Group();
+
+    for (let j = 0; j < 6; j++) {
+        const infostring = roomcontent[i][j]
+        const arr = infostring.split(",");
+        const thismaterial = roommaterials[Number(arr[0])]
+        if (Number(arr[1]) == 1) {
+            var thiswallGeometry = new THREE.BoxGeometry(wallw[j], wallh[j] - 7, 1);
+            var thiswall = new THREE.Mesh(thiswallGeometry, thismaterial);
+            thiswall.position.y += 3.5
+            var thiswallGeometry = new THREE.BoxGeometry(wallw[j] - 7, wallh[j]-3, 1);
+            var thiswall2 = new THREE.Mesh(thiswallGeometry, thismaterial);
+            thiswall2.position.x += 3.5
+            thiswall2.position.y -= 5
+            thiswall.add(thiswall2)
+            var thiswall3 = thiswall2.clone()
+            thiswall3.position.x -= 7
+            thiswall.add(thiswall3)
+        }
+        else {
+            var thiswallGeometry = new THREE.BoxGeometry(wallw[j], wallh[j], 1);
+            var thiswall = new THREE.Mesh(thiswallGeometry, thismaterial);
+        }
+
+        for (let k = 0; k < arr.length; k++) {
+            if (arr[k][0] == 'T') {              
+                var arr2 = arr[k].split("_");               
+                thiswall.add(Writewrite(arr2[4], textmaterial, Number(arr2[1]), Number(arr2[2]), 0.6, 1, 1, Number(arr2[3])))             
+            }
+            if (arr[k][0] == 'P') {
+                var arr2 = arr[k].split("_");
+               //thiswall.add(new THREE.Mesh(frameGeometry, frameMaterial))
+
+                var temp = new THREE.Mesh(frameGeometry, frameMaterial)
+                temp.position.y = Number(arr2[2])
+                temp.position.x = Number(arr2[1])
+
+                temp.scale.y = Number(arr2[4])
+                temp.scale.x = Number(arr2[3])
+                thiswall.add(temp)
+
+                var temp2 = new THREE.Mesh(paintingGeometry, paintingmaterials[Number(arr2[5])])
+                temp2.position.y = Number(arr2[2])
+                temp2.position.x = Number(arr2[1])
+
+                temp2.scale.y = Number(arr2[4])
+                temp2.scale.x = Number(arr2[3])
+                thiswall.add(temp2)
+
+
+
+            }
+        }
+
+        
+        //thiswall.add(new THREE.Mesh(frameGeometry, frameMaterial))
+
+
+        if (j == 0) {thiswall.position.y = -roomyy / 2; thiswall.rotation.x = Math.PI / 2;}
+        if (j == 1) {thiswall.position.x = roomxx / 2;thiswall.rotation.y = Math.PI / 2;}
+        if (j == 2) {thiswall.position.x = -roomxx / 2;thiswall.rotation.y = -Math.PI / 2; }
+        if (j == 3) {thiswall.position.z = roomzz / 2; }
+        if (j == 4) {thiswall.position.z = -roomzz / 2; }
+        if (j == 5) {thiswall.position.y = roomyy / 2; thiswall.rotation.x = Math.PI / 2;  }
+
+
+        rooms[i].add(thiswall)
+    }
+    scene.add(rooms[i])
 }
 
 
@@ -436,21 +534,20 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
 const loader2 = new GLTFLoader();
 
-loader2.load('ouluitems/toivo_prop3.glb', function (model) { ouluitems(model.scene, 0) });
-loader2.load('./ouluitems/PositiveSnowflake_sunset_extended.glb', function (model) { ouluitems(model.scene, 1) });
-loader2.load('./ouluitems/blue2026.glb', function (model) { ouluitems(model.scene, 2) });
+
+loader2.load('./ouluitems/PositiveSnowflake_sunset_extended.glb', function (model) { glbtopos(model.scene, [10.2 - 0.2, -4.4, -0.8 - 0.2, 0, Math.PI / 4, Math.PI, 0.85], 0) });
+loader2.load('./ouluitems/PositiveSnowflake_sunset_extended.glb', function (model) { glbtopos(model.scene, [10.2 + 1.8, -4.4, -0.8 + 1.8, 0, Math.PI / 4, Math.PI, 0.85], 0) });
+
+loader2.load('ouluitems/toivo_prop3.glb', function (model) { glbtopos(model.scene, [12, -1.55, 1, 0, Math.PI / 4, 0, 0.32], 0) });
+loader2.load('./ouluitems/blue2026.glb', function (model) { glbtopos(model.scene, [15.5, 1.8, 0, 0, -Math.PI / 2, 0, 1], 0) });
+loader2.load('./ouluitems/ouluCoat.glb', function (model) { glbtopos(model.scene, [-4.4, 1, 10, 0, Math.PI, 0, 1.4],0) });
+
+loader2.load('./ouluitems/tuomio_mesh_cleanup_cut.glb', function (model) { glbtopos(model.scene, [-1.2, -0.98, 0.2, 0, 1.3 * Math.PI / 4, 0, 0.25], 1) });
+loader2.load('./ouluitems/ainola.glb', function (model) { glbtopos(model.scene, [-0.8, -0.89, 1.1, 0, 2.2 * Math.PI / 4, 0, 0.18], 1) });
+loader2.load('./ouluitems/Kaup_only.glb', function (model) { glbtopos(model.scene, [-0.4, -0.95, -0.1, 0, 1.2 * Math.PI / 4, 0, 0.2], 1) });
 
 
-
-loader2.load('./ouluitems/ouluCoat.glb', function (model) { ouluitems(model.scene, 9) });
-
-
-loader2.load('./ouluitems/tuomio_mesh_cleanup_cut.glb', function (model) { glbtopos(model.scene, [-1.2, -0.98, 0.2, 0, 1.3 * Math.PI / 4, 0, 0.25]) });
-loader2.load('./ouluitems/ainola.glb', function (model) { glbtopos(model.scene, [-0.8, -0.89, 1.1, 0, 2.2 * Math.PI / 4, 0, 0.18]) });
-loader2.load('./ouluitems/Kaup_only.glb', function (model) {glbtopos(model.scene, [-0.4, -0.95, -0.1, 0, 1.2 * Math.PI / 4, 0, 0.2]) });
-
-
-function glbtopos(model, glbpos) {
+function glbtopos(model, glbpos, mode) {
    
     model.position.setX(glbpos[0])
     model.position.setY(glbpos[1])
@@ -461,81 +558,9 @@ function glbtopos(model, glbpos) {
     model.rotation.z = glbpos[5]
 
     model.scale.setScalar(glbpos[6]);
-    minioulu.add(model)
-   // scene.add(model);
-
-
-}
-
-
-
-var oulu = {}
-
-function ouluitems(model, item) {
-    oulu[item] = model
-    if (item == 0) {
-        oulu[item].scale.setScalar(0.32);
-        oulu[item].position.y = -1.55
-
-        oulu[item].position.z += 1
-        oulu[item].position.x += 12
-        oulu[item].rotation.y = Math.PI / 4;
- 
-    }
-    if (item == 1) {
-       
-        oulu[item].position.x += 10.2
-        oulu[item].scale.setScalar(0.85);
-        oulu[item].position.y = -4.4 
-        oulu[item].rotation.y = Math.PI / 4;
- 
-        oulu[item].rotation.z = Math.PI ;
-        oulu[item].position.z -= 0.8
-
-
-
-
-        oulu[6] = oulu[item].clone()
-
-        oulu[6].position.z += 1.8
-        oulu[6].position.x += 1.8
-       // oulu[item].scale.set(0.2, 0.2, 50);
-        scene.add(oulu[6]);
-
-       // oulu[7] = oulu[item].clone()
-       // oulu[7].rotation.y -= Math.PI / 2;
-      //  scene.add(oulu[7]);
-      
-    }
-    if (item == 2) {
-       // oulu[item].position.z -= 4.2
-      //  oulu[item].position.y += 1.8
-
-        oulu[item].position.z -= 0
-        oulu[item].rotation.y=-Math.PI/2
-        oulu[item].position.y += 1.8
-        oulu[item].position.x  =15.5
-    }
-
-
-
-
-
-
-
-
-
-    if (item == 9) {
-        oulu[item].rotation.y = Math.PI 
-        oulu[item].position.x -= 4.4
-        oulu[item].position.z += 10
-        oulu[item].position.y += 1
-        oulu[item].scale.setScalar(1.4)
-    }
-
-
-    scene.add(oulu[item]);
-
+    if (mode == 0) { scene.add(model) }
+    if (mode == 1) { minioulu.add(model) }
+   
 }
 
 
@@ -543,12 +568,11 @@ function ouluitems(model, item) {
 const loader5 = new SVGLoader();
 
 
-loader5.load('./ouluitems/pp_logo.svg', function (data2) { loadload(data2, 0) });
+loader5.load('./ouluitems/pp_logo.svg', function (data2) { svgtopos(data2, [4, -3.2, -4.2, 0, Math.PI, 0, 0.004]) });
 
 
-function loadload(data2,flag) {
+function svgtopos(data2, svgpos) {
     const paths = data2.paths;
-   // alert(flag)
     for (let i = 0; i < paths.length; i++) {
 
         const path = paths[i];
@@ -564,20 +588,17 @@ function loadload(data2,flag) {
             const shape = shapes[j];
             const geometry = new THREE.ShapeGeometry(shape);
             const mesh = new THREE.Mesh(geometry, material);
-            //alert(mesh.name)
-            // mesh.name = param[0] + ', T=' + param[2] + ', Clouds: ' + Math.round(param[3]) + '/8'
-            //  group[groupind].add(mesh);
-            if (flag == 0) {
-                mesh.scale.setScalar(0.004);
-                mesh.rotation.y = Math.PI
-                mesh.position.y -= 3.2
-                mesh.position.z -= 4.2
-                mesh.position.x += 4
-            }
+           
+            mesh.position.setX(svgpos[0])
+            mesh.position.setY(svgpos[1])
+            mesh.position.setZ(svgpos[2])
 
-           // mesh.scale.setScalar(103);
+            mesh.rotation.x = svgpos[3]
+            mesh.rotation.y = svgpos[4]
+            mesh.rotation.z = svgpos[5]
+            mesh.scale.setScalar(svgpos[6]);
             scene.add(mesh)
-          //  oulu[11].visible = false
+  
         }
 
     }
@@ -990,8 +1011,8 @@ function Writewrite(texttext, thismaterial, xxx, yyy, zzz, thisvisible, thiscent
 
  
     temp.position.set(xxx, yyy, zzz)
-    temp.scale.set(0.004, 0.004, 0.004)
-    temp.rotateY(Math.PI / 1)
+    temp.scale.set(thissize, thissize, thissize)
+  //  temp.rotateY(Math.PI / 1)
 
     if (thisvisible == 0) {
         temp.visible = false;
@@ -1106,6 +1127,9 @@ function miniaturetable(doormaterial, edgeMaterial, pathtoplane) {
 
     }
 
+
+
+
     return minioulu
 }
 
@@ -1169,4 +1193,11 @@ function addnaviball(doormaterial) {
         naviball.add(temp)
     }
     naviball.visible = false
+}
+
+
+function circleshow(state) {
+    for (let i = 0; i < 3; i++) {
+        circle[i].visible = state
+    }
 }
