@@ -61,16 +61,12 @@ onWindowResize()
 const edgeMaterial = new THREE.MeshStandardMaterial({ color: 0xcccccc });
 const doormaterial = new THREE.MeshStandardMaterial({ color: 0xaa00aa });
 const textmaterial = new THREE.MeshStandardMaterial({ color: 0x000000 });
-
+const greenmaterial = new THREE.MeshStandardMaterial({ color: 0x00aa00 });
 var circle = []
 
 
 const minioulu = miniaturetable(doormaterial, edgeMaterial, './ouluitems/ouluplane.png')
 scene.add(minioulu)
-
-
-//spotLights[3].target = circle[0]
-
 
 
 const followObject = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), edgeMaterial);
@@ -90,8 +86,6 @@ function wallwithdoorhole(wallMaterial, textcontainer, i) {
 
     const wallhole = new THREE.Group();
 
-
-
     const walla = new THREE.Mesh(roomGeometry2, wallMaterial);
     walla.position.x += 3.5
 
@@ -102,7 +96,6 @@ function wallwithdoorhole(wallMaterial, textcontainer, i) {
     wallc.position.y += 3.5
 
     const thisdoor = new THREE.Group();
-
 
     if (i == 0) {
         const door = new THREE.Mesh(doorGeometry, doormaterial);
@@ -197,6 +190,7 @@ paintingmaterials[3] = new THREE.MeshStandardMaterial({ map: textureLoader.load(
 paintingmaterials[4] = new THREE.MeshStandardMaterial({ map: textureLoader.load('./ouluitems/starttext.png') });
 paintingmaterials[5] = new THREE.MeshStandardMaterial({ map: textureLoader.load('./ouluitems/tauno.jpg') });
 paintingmaterials[6] = new THREE.MeshStandardMaterial({ map: textureLoader.load('./ouluitems/Franzen.png') });
+paintingmaterials[7] = new THREE.MeshStandardMaterial({ map: textureLoader.load('./ouluitems/taunotext2.png') });
 
 
 
@@ -226,12 +220,15 @@ for (let i = 0; i < 4; i++) {
 }
 
 
+roomcontent[0][4] = roomcontent[0][4] + ',TS_0_4.1_0.003_Voit klikata kaikkea violettia. Klikkaa ensin t\u00E4st\u00E4!'
+
 roomcontent[0][4] = roomcontent[0][4] + ',T_0_3_0.008_Pohjois-'
 roomcontent[0][4] = roomcontent[0][4] + ',T_0_2_0.008_Pohjanmaan'
 roomcontent[0][4] = roomcontent[0][4] + ',T_0_0.8_0.008_museo'
-roomcontent[0][4] = roomcontent[0][4] + ',T_-2.7_-3.4_0.003_Tauno Tonning'
 
-roomcontent[0][4] = roomcontent[0][4] + ',P_-2_-2_0.5_0.5_5'
+roomcontent[0][4] = roomcontent[0][4] + ',P_-2.2_-2.3_0.55_0.55_5'
+roomcontent[0][4] = roomcontent[0][4] + ',P_-2.2_-0.7_0.55_0.12_7'
+
 roomcontent[2][3] = roomcontent[2][3] + ',PF1_0_0_1_1_0'
 roomcontent[2][2] = roomcontent[2][2] + ',PF0_0_0_1_1_1'
 roomcontent[2][4] = roomcontent[2][4] + ',PF2_0_0_1_1_2'
@@ -266,8 +263,13 @@ for (let i = 0; i < 4; i++) {
 
         for (let k = 0; k < arr.length; k++) {
             if (arr[k][0] == 'T') {              
-                var arr2 = arr[k].split("_");               
-                thiswall.add(Writewrite(arr2[4], textmaterial, Number(arr2[1]), Number(arr2[2]), 0.6, 1, 1, Number(arr2[3])))             
+                var arr2 = arr[k].split("_");
+                var temptext = Writewrite(arr2[4], textmaterial, Number(arr2[1]), Number(arr2[2]), 0.6, 1, 1, Number(arr2[3]))
+                if (arr[k][1] == 'S') {
+                    var temp2 = temptext
+                    temptext.name = 'start'
+                }
+                thiswall.add(temptext)             
             }
             if (arr[k][0] == 'P') {
                 var arr2 = arr[k].split("_");
@@ -280,6 +282,9 @@ for (let i = 0; i < 4; i++) {
                 temppaint[2] = new THREE.Mesh(clickframeGeometry, doormaterial)
 
                 var nrolayers = 2
+
+
+
                 if (arr[k][1] == 'F') {
                     var numnum = Number(arr[k][2])
                     if (numnum > -1 && numnum < 4) {
@@ -326,13 +331,18 @@ rooms[3].position.z += 11
 minioulu.position.z += 11
 
 
-var temp3 = new THREE.Mesh(paintingGeometry, paintingmaterials[4])
-temp3.name = 'start'
-temp3.position.y += 3.4
-temp3.position.x += 3.0
-temp3.scale.x = 0.6
-temp3.scale.y = 0.6
-scene.add(temp3)
+
+const temp3 = new THREE.Mesh(new THREE.PlaneGeometry(10, 0.7), doormaterial);
+temp3.position.y = 4.1
+temp3.position.z = -4.4
+temp3.name='start'
+
+const bgcircle = new THREE.Mesh(new THREE.CircleGeometry(1.9, 32), greenmaterial);
+bgcircle.position.z = -4.4
+bgcircle.position.x = 2.15
+bgcircle.position.y = -2.1
+
+scene.add(temp3, bgcircle)
 
 
 const pointLight = new THREE.PointLight(0xffffff, 0.4);
@@ -382,12 +392,8 @@ function glbtopos(model, glbpos, mode) {
 }
 
 
-
 const loader5 = new SVGLoader();
-
-
-loader5.load('./ouluitems/pp_logo.svg', function (data2) { svgtopos(data2, [4, -3.2, -4.2, 0, Math.PI, 0, 0.004]) });
-
+loader5.load('./ouluitems/pp_logo.svg', function (data2) { svgtopos(data2, [0.5, -0.5, -4.2, 0, Math.PI, Math.PI, 0.004]) });
 
 function svgtopos(data2, svgpos) {
     const paths = data2.paths;
@@ -441,8 +447,9 @@ function myFunction(event) {
 
     if (intersects.length > 0) {
         if (intersects[0].object.name == 'start') {
+            temp2.visible = false
             temp3.visible = false
-  
+          //  temp4.visible = false
         }
 
         if (temp3.visible == true) { return }
