@@ -57,86 +57,6 @@ onWindowResize()
 
 // this function contains the creation of a miniature table that will be replaced by a glb model
 // in real life applications
-function miniaturetable(edgeMaterial, pathtoplane) {
-
-    const minioulu = new THREE.Group();
-    var vitrineMaterial = new THREE.MeshBasicMaterial({
-        color: 0xffffff,
-        transparent: true,
-        opacity: 0.3
-    });
-    var vitrineGeometry = new THREE.BoxGeometry(5, 5, 0.5);
-
-    var vitrine = new THREE.Mesh(vitrineGeometry, vitrineMaterial);
-
-    vitrine.rotation.x = Math.PI / 2;
-    vitrine.position.y = -0.8;
-
-    minioulu.add(vitrine)
-
-    var edgeGeometry = new THREE.BoxGeometry(1, 1, 1);
-
-    var xxx = [-5, 5, 0, 0]
-    var yyy = [0, 0, -5, 5]
-
-    for (let i = 0; i < 4; i++) {
-
-        var edge = new THREE.Mesh(edgeGeometry, edgeMaterial);
-        edge.position.set(xxx[i] / 2, -0.5, yyy[i] / 2);
-        edge.scale.set(5, 0.05, 0.05);
-        if (i < 2) {
-            edge.rotation.y = Math.PI / 2;
-        }
-
-        minioulu.add(edge)
-
-    }
-
-    var sric = 0.025
-    var xxx2 = [-5 + sric, 5 - sric, -5 + sric, 5 - sric]
-    var yyy2 = [-5 + sric, -5 + sric, 5 - sric, 5 - sric]
-
-    for (let i = 0; i < 4; i++) {
-
-        var edge = new THREE.Mesh(edgeGeometry, edgeMaterial);
-        edge.position.set(xxx2[i] / 2, -0.75, yyy2[i] / 2);
-        edge.scale.set(0.05, 0.55, 0.05);
-        edge.rotation.y = Math.PI;
-        // edges.push(edge);
-
-        minioulu.add(edge)
-
-        var cylinder = new THREE.Mesh(new THREE.CylinderGeometry(0.2, 0.2, 4, 32), edgeMaterial);
-        cylinder.position.y = -2.5
-        cylinder.position.x = xxx2[i] / 2
-        cylinder.position.z = yyy2[i] / 2
-        minioulu.add(cylinder)
-
-    }
-
-    var topPlane = new THREE.Mesh(
-        new THREE.BoxGeometry(5.01, 5.01, 0.1),
-        new THREE.MeshBasicMaterial({
-            color: 0xcccccc,
-            transparent: true,
-            opacity: 1
-        })
-    );
-    topPlane.position.y = -1.01;
-    topPlane.rotation.x = Math.PI / 2;
-
-    const tableGeometry = new THREE.BoxGeometry(5, 5, 0.1);
-    const ouluMaterial = new THREE.MeshStandardMaterial({ map: textureLoader.load(pathtoplane) });
-    const oulutable = new THREE.Mesh(tableGeometry, ouluMaterial);
-    oulutable.position.y = -1;
-    oulutable.rotation.x = Math.PI / 2;
-
-    minioulu.add(oulutable, topPlane)
-    minioulu.rotation.y = Math.PI
-
-    return minioulu
-}
-
 
 
 
@@ -296,6 +216,25 @@ var paingints = []
 var paintingfiles = ['./ouluitems/oldhouse2.png', './ouluitems/riverfishing.png', './ouluitems/riverburning.png', './ouluitems/Franzen.png', './ouluitems/oulufinland.png', './ouluitems/starttext.png', './ouluitems/tauno.jpg']
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 var arrowShape = new THREE.Shape();
 arrowShape.moveTo(-1, -0.5);
 arrowShape.lineTo(-1, 0.5);
@@ -327,69 +266,16 @@ arrow2.rotation.y = Math.PI
 arrow2.position.z += 0
 arrow2.position.x += 7
 
-var ballgeometry = new THREE.SphereGeometry(0.5, 16, 16);
-var mysphere = new THREE.Mesh(ballgeometry, doormaterial);
-
-mysphere.name = 'Gohere'
-//scene.add(mysphere)
 
 
-var naviball = new THREE.Group();
-
-var sphereposx = [4, 4, 4, 4, -4, -4, -4, -4]
-var sphereposy = [4.5, 4.5, -4.5, -4.5, 4.5, 4.5, -4.5, -4.5]
-var sphereposz = [4, -4, 4, -4, 4, -4, 4, -4]
-
-for (let j = 1; j < 3; j++) {
-
-
-    for (let i = 0; i < sphereposx.length; i++) {
-        var temp = mysphere.clone()
-        temp.position.x = sphereposx[i] / j + 11
-        
-        temp.position.y = sphereposy[i] / j
-        if (j == 2) { temp.position.y=0.5 }
-        temp.position.z = sphereposz[i] / j
-        naviball.add(temp)
-
-        
-      //  scene.add(temp)
-    }
-    mysphere.scale.setScalar(0.2)
-}
-mysphere.scale.setScalar(0.1)
-var aag = Math.PI/4
-for (let i = 0; i < 360; i += 20) {
-    var temp = mysphere.clone()
-    var  x1 = 4* Math.sin(i * 2 * Math.PI / 180);
-    var y1 = 1.5* Math.cos(i * 2 * Math.PI / 180);
-    temp.position.y = 0.5
-    temp.position.x = x1 * Math.cos(aag) - y1 * Math.sin(aag) +11
-    temp.position.z = x1 * Math.sin(aag) + y1 * Math.cos(aag)
-    naviball.add(temp)
-}
-
-for (let i = 0; i < 10; i += 2) {
-    var temp = mysphere.clone()
-    var x1 = 0.5 * i -2.5
-    var y1 = 0.5
-    temp.position.y = 0
-    temp.position.x = x1 * Math.cos(aag) - y1 * Math.sin(aag) + 11
-    temp.position.z = x1 * Math.sin(aag) + y1 * Math.cos(aag)
-    naviball.add(temp)
-}
-for (let i = 0; i < 10; i += 2) {
-    var temp = mysphere.clone()
-    var x1 = 0.5 * i - 2.5
-    var y1 = -0.5
-    temp.position.y = 0
-    temp.position.x = x1 * Math.cos(aag) - y1 * Math.sin(aag) + 11
-    temp.position.z = x1 * Math.sin(aag) + y1 * Math.cos(aag)
-    naviball.add(temp)
-}
-
+const naviball = new THREE.Group();
+addnaviball(doormaterial)
 scene.add(naviball)
-naviball.visible = false
+
+
+
+
+
 
 var circleGeometry = new THREE.CircleGeometry(0.35, 15);
 
@@ -419,6 +305,11 @@ circle3.name = 'ktalo'
 
 spotLights[3].target = circle
 
+
+
+
+
+
 const groups = [];
 
 for (let i = 0; i < 4; i++) {
@@ -426,15 +317,15 @@ for (let i = 0; i < 4; i++) {
     groups[i] = new THREE.Group();
 
 
-   
+
 
     const floorMaterial = new THREE.MeshStandardMaterial({ map: textureLoader.load('./ouluitems/floor-texture.png') });
     const floor = new THREE.Mesh(roomGeometry, floorMaterial);
     floor.position.y = -roomy / 2;
     floor.rotation.x = Math.PI / 2;
 
-    if (i == 0 || i == 2) { var wall1 = wallwithdoorhole(wallMaterials[i],['Laiva','Toivo'],i) } else { var wall1 = new THREE.Mesh(roomGeometry, wallMaterials[i]);}  
-    
+    if (i == 0 || i == 2) { var wall1 = wallwithdoorhole(wallMaterials[i], ['Laiva', 'Toivo'], i) } else { var wall1 = new THREE.Mesh(roomGeometry, wallMaterials[i]); }
+
     wall1.position.x = roomx / 2;
     wall1.rotation.y = Math.PI / 2;
 
@@ -451,7 +342,7 @@ for (let i = 0; i < 4; i++) {
 
     if (i == 0 || i == 4) { var wall3 = wallwithdoorhole(wallMaterials[i], ['Mini-', 'Oulu'], i) } else { var wall3 = new THREE.Mesh(roomGeometry, wallMaterials[i]); }
 
-   // const wall3 = new THREE.Mesh(roomGeometry, wallMaterial);
+    // const wall3 = new THREE.Mesh(roomGeometry, wallMaterial);
     if (i == 2) {
         wall3.add(new THREE.Mesh(frameGeometry, frameMaterial))
         var paintingMaterial = new THREE.MeshStandardMaterial({ map: textureLoader.load(paintingfiles[1]) });
@@ -461,14 +352,14 @@ for (let i = 0; i < 4; i++) {
     }
     if (i == 3) {
         var temp = new THREE.Mesh(frameGeometry, frameMaterial)
-        temp.scale.y=2
+        temp.scale.y = 2
         wall3.add(temp)
-       // wall3.add(arrow.clone())
+        // wall3.add(arrow.clone())
         var paintingMaterial = new THREE.MeshStandardMaterial({ map: textureLoader.load(paintingfiles[4]) });
         var temp2 = new THREE.Mesh(paintingGeometry, paintingMaterial)
         temp2.scale.y = 2
         wall3.add(temp2)
-     
+
     }
 
 
@@ -479,9 +370,9 @@ for (let i = 0; i < 4; i++) {
     if (i == 2) {
         wall4.add(new THREE.Mesh(frameGeometry, frameMaterial))
         var paintingMaterial = new THREE.MeshStandardMaterial({ map: textureLoader.load(paintingfiles[0]) });
-        wall4.add(new THREE.Mesh(paintingGeometry, paintingMaterial))      
+        wall4.add(new THREE.Mesh(paintingGeometry, paintingMaterial))
         wall4.add(arrow2.clone())
-   
+
         spotLights[2].target = wall4
     }
     //wall3.rotation.y = -Math.PI / 2;
@@ -528,6 +419,14 @@ for (let i = 0; i < 4; i++) {
     else { groups[i].add(floor, wall1, wall2, wall3, wall4, ceiling); }
     scene.add(groups[i])
 }
+
+
+
+
+
+
+
+
 
 
 groups[1].position.x += 11
@@ -1147,4 +1046,148 @@ function Writewrite(texttext, thismaterial, xxx, yyy, zzz, thisvisible, thiscent
     return temp
 
 
+}
+
+
+
+function miniaturetable(edgeMaterial, pathtoplane) {
+
+    const minioulu = new THREE.Group();
+    var vitrineMaterial = new THREE.MeshBasicMaterial({
+        color: 0xffffff,
+        transparent: true,
+        opacity: 0.3
+    });
+    var vitrineGeometry = new THREE.BoxGeometry(5, 5, 0.5);
+
+    var vitrine = new THREE.Mesh(vitrineGeometry, vitrineMaterial);
+
+    vitrine.rotation.x = Math.PI / 2;
+    vitrine.position.y = -0.8;
+
+    minioulu.add(vitrine)
+
+    var edgeGeometry = new THREE.BoxGeometry(1, 1, 1);
+
+    var xxx = [-5, 5, 0, 0]
+    var yyy = [0, 0, -5, 5]
+
+    for (let i = 0; i < 4; i++) {
+
+        var edge = new THREE.Mesh(edgeGeometry, edgeMaterial);
+        edge.position.set(xxx[i] / 2, -0.5, yyy[i] / 2);
+        edge.scale.set(5, 0.05, 0.05);
+        if (i < 2) {
+            edge.rotation.y = Math.PI / 2;
+        }
+
+        minioulu.add(edge)
+
+    }
+
+    var sric = 0.025
+    var xxx2 = [-5 + sric, 5 - sric, -5 + sric, 5 - sric]
+    var yyy2 = [-5 + sric, -5 + sric, 5 - sric, 5 - sric]
+
+    for (let i = 0; i < 4; i++) {
+
+        var edge = new THREE.Mesh(edgeGeometry, edgeMaterial);
+        edge.position.set(xxx2[i] / 2, -0.75, yyy2[i] / 2);
+        edge.scale.set(0.05, 0.55, 0.05);
+        edge.rotation.y = Math.PI;
+        // edges.push(edge);
+
+        minioulu.add(edge)
+
+        var cylinder = new THREE.Mesh(new THREE.CylinderGeometry(0.2, 0.2, 4, 32), edgeMaterial);
+        cylinder.position.y = -2.5
+        cylinder.position.x = xxx2[i] / 2
+        cylinder.position.z = yyy2[i] / 2
+        minioulu.add(cylinder)
+
+    }
+
+    var topPlane = new THREE.Mesh(
+        new THREE.BoxGeometry(5.01, 5.01, 0.1),
+        new THREE.MeshBasicMaterial({
+            color: 0xcccccc,
+            transparent: true,
+            opacity: 1
+        })
+    );
+    topPlane.position.y = -1.01;
+    topPlane.rotation.x = Math.PI / 2;
+
+    const tableGeometry = new THREE.BoxGeometry(5, 5, 0.1);
+    const ouluMaterial = new THREE.MeshStandardMaterial({ map: textureLoader.load(pathtoplane) });
+    const oulutable = new THREE.Mesh(tableGeometry, ouluMaterial);
+    oulutable.position.y = -1;
+    oulutable.rotation.x = Math.PI / 2;
+
+    minioulu.add(oulutable, topPlane)
+    minioulu.rotation.y = Math.PI
+
+    return minioulu
+}
+
+function addnaviball(doormaterial) {
+
+    var ballgeometry = new THREE.SphereGeometry(0.5, 16, 16);
+    var mysphere = new THREE.Mesh(ballgeometry, doormaterial);
+
+    mysphere.name = 'Gohere'
+
+
+
+    var sphereposx = [4, 4, 4, 4, -4, -4, -4, -4]
+    var sphereposy = [4.5, 4.5, -4.5, -4.5, 4.5, 4.5, -4.5, -4.5]
+    var sphereposz = [4, -4, 4, -4, 4, -4, 4, -4]
+
+    for (let j = 1; j < 3; j++) {
+
+        for (let i = 0; i < sphereposx.length; i++) {
+            var temp = mysphere.clone()
+            temp.position.x = sphereposx[i] / j + 11
+
+            temp.position.y = sphereposy[i] / j
+            if (j == 2) { temp.position.y = 0.5 }
+            temp.position.z = sphereposz[i] / j
+            naviball.add(temp)
+
+
+            //  scene.add(temp)
+        }
+        mysphere.scale.setScalar(0.2)
+    }
+    mysphere.scale.setScalar(0.1)
+    var aag = Math.PI / 4
+    for (let i = 0; i < 360; i += 20) {
+        var temp = mysphere.clone()
+        var x1 = 4 * Math.sin(i * 2 * Math.PI / 180);
+        var y1 = 1.5 * Math.cos(i * 2 * Math.PI / 180);
+        temp.position.y = 0.5
+        temp.position.x = x1 * Math.cos(aag) - y1 * Math.sin(aag) + 11
+        temp.position.z = x1 * Math.sin(aag) + y1 * Math.cos(aag)
+        naviball.add(temp)
+    }
+
+    for (let i = 0; i < 10; i += 2) {
+        var temp = mysphere.clone()
+        var x1 = 0.5 * i - 2.5
+        var y1 = 0.5
+        temp.position.y = 0
+        temp.position.x = x1 * Math.cos(aag) - y1 * Math.sin(aag) + 11
+        temp.position.z = x1 * Math.sin(aag) + y1 * Math.cos(aag)
+        naviball.add(temp)
+    }
+    for (let i = 0; i < 10; i += 2) {
+        var temp = mysphere.clone()
+        var x1 = 0.5 * i - 2.5
+        var y1 = -0.5
+        temp.position.y = 0
+        temp.position.x = x1 * Math.cos(aag) - y1 * Math.sin(aag) + 11
+        temp.position.z = x1 * Math.sin(aag) + y1 * Math.cos(aag)
+        naviball.add(temp)
+    }
+    naviball.visible = false
 }
