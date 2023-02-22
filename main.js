@@ -440,13 +440,32 @@ loader2.load('ouluitems/toivo_prop3.glb', function (model) { ouluitems(model.sce
 loader2.load('./ouluitems/PositiveSnowflake_sunset_extended.glb', function (model) { ouluitems(model.scene, 1) });
 loader2.load('./ouluitems/blue2026.glb', function (model) { ouluitems(model.scene, 2) });
 
-loader2.load('./ouluitems/tuomio_mesh_cleanup_cut.glb', function (model) { ouluitems(model.scene, 3) });
-loader2.load('./ouluitems/ainola.glb', function (model) { ouluitems(model.scene, 4) });
-loader2.load('./ouluitems/Kaup_only.glb', function (model) { ouluitems(model.scene, 5) });
 
 
 loader2.load('./ouluitems/ouluCoat.glb', function (model) { ouluitems(model.scene, 9) });
 
+
+loader2.load('./ouluitems/tuomio_mesh_cleanup_cut.glb', function (model) { glbtopos(model.scene, [-1.2, -0.98, 0.2, 0, 1.3 * Math.PI / 4, 0, 0.25]) });
+loader2.load('./ouluitems/ainola.glb', function (model) { glbtopos(model.scene, [-0.8, -0.89, 1.1, 0, 2.2 * Math.PI / 4, 0, 0.18]) });
+loader2.load('./ouluitems/Kaup_only.glb', function (model) {glbtopos(model.scene, [-0.4, -0.95, -0.1, 0, 1.2 * Math.PI / 4, 0, 0.2]) });
+
+
+function glbtopos(model, glbpos) {
+   
+    model.position.setX(glbpos[0])
+    model.position.setY(glbpos[1])
+    model.position.setZ(glbpos[2])
+
+    model.rotation.x = glbpos[3]
+    model.rotation.y = glbpos[4]
+    model.rotation.z = glbpos[5]
+
+    model.scale.setScalar(glbpos[6]);
+    minioulu.add(model)
+   // scene.add(model);
+
+
+}
 
 
 
@@ -497,41 +516,14 @@ function ouluitems(model, item) {
         oulu[item].position.y += 1.8
         oulu[item].position.x  =15.5
     }
-    if (item == 3) {
-        oulu[item].rotation.y = 1.3 * Math.PI / 4
-        oulu[item].position.setZ(0.2)
-        oulu[item].position.setX(-1.2)
-        oulu[item].position.setY(-0.98)
-        oulu[item].scale.setScalar(0.25);
-        
 
-        minioulu.add(oulu[item])
-        return
-    }
 
-    if (item == 4) {
-        oulu[item].rotation.y = 2.2 * Math.PI / 4
-        oulu[item].position.setZ(1.1)
-        oulu[item].position.setX(-0.8)
-        oulu[item].position.setY(-0.89)
-        oulu[item].scale.setScalar(0.18);
-      
 
-        minioulu.add(oulu[item])
-        return
-    }
 
-    if (item == 5) {
-        oulu[item].rotation.y = 1.2 * Math.PI / 4
-        oulu[item].position.setZ(-0.1)
-        oulu[item].position.setX(-0.4)
-        oulu[item].position.setY(-0.95)
-        oulu[item].scale.setScalar(0.2);
-       
 
-        minioulu.add(oulu[item])
-        return
-    }
+
+
+
 
     if (item == 9) {
         oulu[item].rotation.y = Math.PI 
@@ -740,8 +732,7 @@ function myFunction(event) {
             }
             else {
                 maketarget([followObject.position.x, followObject.position.y, followObject.position.z, 0, -0.5, 11])
-   //             maketrip([camera.position.x, camera.position.y, camera.position.z, 0, 0, 0, 3, 1, 11, 0, 1, 15], 10)
-                maketrip([camera.position.x, camera.position.y, camera.position.z, 0, 0, 0, 0, 1, 8, 3, 1, 8, 3, 1, 14, 0, 1, 15], 10)
+               maketrip([camera.position.x, camera.position.y, camera.position.z, 0, 0, 0, 0, 1, 8, 3, 1, 8, 3, 1, 14, 0, 1, 15], 10)
 
                 roomnro = 3
             }
@@ -763,25 +754,16 @@ function maketrip(temp,mave) {
     var zArray = [];
 
     for (let j = 0; j < ((temp.length)/3-1); j++) {
-      //  temp2 = temp[j][0]
-
+ 
         for (let i = 0; i <= 100; i++) {
-           // tripArray.push(i / 100 * temp[3 + 3 * j] + (100 - i) / 100 * temp[0 + 3 * j])
-          //  tripArray.push(i / 100 * temp[4 + 3 * j] + (100 - i) / 100 * temp[1 + 3 * j])
-           // tripArray.push(i / 100 * temp[5 + 3 * j] + (100 - i) / 100 * temp[2 + 3 * j])
-
+ 
             xArray.push(i / 100 * temp[3 + 3 * j] + (100 - i) / 100 * temp[0 + 3 * j])
             yArray.push(i / 100 * temp[4 + 3 * j] + (100 - i) / 100 * temp[1 + 3 * j])
             zArray.push(i / 100 * temp[5 + 3 * j] + (100 - i) / 100 * temp[2 + 3 * j])
 
-
-
         }
     }
 
-
-
-   
     xArray = movingAverage(xArray, mave)
     yArray = movingAverage(yArray, mave)
     zArray = movingAverage(zArray, mave)
@@ -849,32 +831,23 @@ var targetArray = []
 var doornro = -1
 var roomnro = 0
 var angle = 0
-//var tofrom =[]
-//var starttarget =[]
+
 var flickcounter = 0
 
 function animate() {
     requestAnimationFrame(animate) 
-  //  angle -= 0.01
 
-    if (circle[0].visible == true) {
+    if (circle[0].visible == true) {      
         flickcounter++
-
-
-
-      //  if (flickcounter < 40) { spotLights[3].target = circle }
-     //   if (flickcounter > 39 && flickcounter < 80) { spotLights[3].target = circle2 }
-     //   if (flickcounter > 79) { spotLights[3].target = circle3 }
-    //    if (flickcounter > 119) { flickcounter =-1}
-  //      spotLights[3].visible = true
- //   }
-  //  else {
- //       flickcounter = 0
- //       spotLights[3].visible =false
+        if (flickcounter > 119) { flickcounter = 0 }
+        spotLights[3].target = circle[2-Math.floor(flickcounter / 40)]
+        spotLights[3].visible = true
+    }
+    else {
+        spotLights[3].visible =false
     }
 
   
-
     if (doornro > -1) { 
         if (doors[doornro].rotation.y > -1.5 * Math.PI / 2) {
             doors[doornro].rotation.y -= 0.03
