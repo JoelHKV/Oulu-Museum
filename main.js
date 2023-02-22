@@ -249,40 +249,15 @@ function wallwithdoorhole(wallMaterial,textcontainer,i) {
 
 const title = new THREE.Group();
 
-title.add(Writewrite('Pohjois-', textmaterial, 0, 0.25, 0, 1, 1, 0))
-title.add(Writewrite('Pohjanmaan', textmaterial, 0, -0.25, 0, 1, 1, 0))
-title.add(Writewrite('museo', textmaterial, 0, -0.85, 0, 1, 1, 0))
+title.add(Writewrite('Pohjois-', textmaterial, 0, 0.75, 0, 1, 1, 0))
+title.add(Writewrite('Pohjanmaan', textmaterial, 0, 0.25, 0, 1, 1, 0))
+title.add(Writewrite('museo', textmaterial, 0, -0.35, 0, 1, 1, 0))
 title.rotation.y=Math.PI
 title.position.z -= 4.4
 title.position.y +=1.5
 title.scale.setScalar(1.8)
 scene.add(title)
 
-const intro = new THREE.Group();
-var tempintro = Writewrite('Liiku klikkamalla', textmaterial, 0, 0.25, 0, 1, 1, 0)
-tempintro.name = 'start'
-intro.add(tempintro)
-var tempintro = Writewrite('violettia v\u00E4ri\u00E4.', textmaterial, 0, -0.25, 0, 1, 1, 0)
-tempintro.name = 'start'
-intro.add(tempintro)
-var tempintro = Writewrite('Klikkaa ensin t\u00E4st\u00E4.', textmaterial, 0, -0.8, 0, 1, 1, 0)
-tempintro.name = 'start'
-intro.add(tempintro)
-
-
-var plane = new THREE.Mesh(new THREE.PlaneGeometry(5, 2.3), doormaterial);
-var plane2 = new THREE.Mesh(new THREE.PlaneGeometry(5.4, 2.6), textmaterial);
-plane.name = 'start'; plane2.name = 'start'
-plane.rotation.y = Math.PI; plane2.rotation.y = Math.PI
-plane.position.y -= 0.4; plane2.position.y -= 0.45
-plane.position.z += 0.2
-plane2.position.z += 0.4
-intro.add(plane,plane2)
-intro.position.z -= 4.0
-intro.position.y -= 2
-intro.rotation.y = Math.PI
-intro.scale.setScalar(1)
-scene.add(intro)
 
 var spotLights = []
 for (let i = 0; i < 4; i++) {
@@ -311,9 +286,6 @@ var paintingGeometry = new THREE.BoxGeometry(4.8, 3.8, 1.11);
 var frameMaterial = new THREE.MeshLambertMaterial({ color: 0x000000 });
 
 
-//var frameMaterial = new THREE.MeshStandardMaterial({ map: textureLoader.load('frametexture.png') })
-
-
 
 
 
@@ -321,7 +293,7 @@ var frameMaterial = new THREE.MeshLambertMaterial({ color: 0x000000 });
 var paintingMaterial = []
 var paingints = []
 //var paintingfiles = ['/art_pieces/tarburning.png', '/art_pieces/riverfishing.png', '/art_pieces/oldhouse.png', '/art_pieces/Franzen.png', '/oulufinland.png']
-var paintingfiles = ['./ouluitems/oldhouse2.png', './ouluitems/riverfishing.png', './ouluitems/riverburning.png', './ouluitems/Franzen.png', './ouluitems/oulufinland.png']
+var paintingfiles = ['./ouluitems/oldhouse2.png', './ouluitems/riverfishing.png', './ouluitems/riverburning.png', './ouluitems/Franzen.png', './ouluitems/oulufinland.png', './ouluitems/starttext.png', './ouluitems/tauno.jpg']
 
 
 var arrowShape = new THREE.Shape();
@@ -515,6 +487,33 @@ for (let i = 0; i < 4; i++) {
     //wall3.rotation.y = -Math.PI / 2;
 
 
+    if (i == 0) {
+        var temp = new THREE.Mesh(frameGeometry, frameMaterial)
+        temp.position.y -= 1.6
+        temp.scale.x = 0.5
+        temp.scale.y = 0.75
+        temp.position.x -= 2.7
+        wall4.add(temp)
+        var paintingMaterial = new THREE.MeshStandardMaterial({ map: textureLoader.load(paintingfiles[6]) });
+        var temp2 = new THREE.Mesh(paintingGeometry, paintingMaterial)
+        temp2.position.y -= 1.6
+        temp2.position.x -= 2.7
+        temp2.scale.x = 0.50
+        temp2.scale.y = 0.75
+        wall4.add(temp2)
+        var paintingMaterial = new THREE.MeshStandardMaterial({ map: textureLoader.load(paintingfiles[5]) });
+        var temp3 = new THREE.Mesh(paintingGeometry, paintingMaterial)
+        temp3.name = 'start'
+        temp3.position.y += 3.4
+        temp3.position.x += 3.0
+        temp3.scale.x = 0.6
+        temp3.scale.y = 0.6
+        wall4.add(temp3)
+
+    }
+
+
+
 
 
     const ceilingMaterial = new THREE.MeshStandardMaterial({ map: textureLoader.load('./ouluitems/ceiling-texture2.png') });
@@ -543,20 +542,12 @@ pointLight.position.set(0, 3, 0);
 const pointLight2 = new THREE.PointLight(0xffffff, 0.6);
 pointLight2.position.set(11, -1, 0);
 
-
-
-
 const ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
 scene.add(ambientLight, pointLight, pointLight2);
 
 pointLight2.visible=false
 
-
-
-var automove = 1
-if (automove == 0) {
-    const controls = new OrbitControls(camera, renderer.domElement);
-}
+//const controls = new OrbitControls(camera, renderer.domElement);
 
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
@@ -677,7 +668,9 @@ function ouluitems(model, item) {
 
 
 const loader5 = new SVGLoader();
-//loader5.load('homeframephoto.svg', function (data2) { loadload(data2, 1) });
+
+
+loader5.load('./ouluitems/pp_logo.svg', function (data2) { loadload(data2, 0) });
 
 
 function loadload(data2,flag) {
@@ -702,18 +695,13 @@ function loadload(data2,flag) {
             // mesh.name = param[0] + ', T=' + param[2] + ', Clouds: ' + Math.round(param[3]) + '/8'
             //  group[groupind].add(mesh);
             if (flag == 0) {
-                mesh.scale.setScalar(0.003);
+                mesh.scale.setScalar(0.004);
                 mesh.rotation.y = Math.PI
-                mesh.position.y -= 3.3
+                mesh.position.y -= 3.2
                 mesh.position.z -= 4.2
-                mesh.position.x += 1.2
+                mesh.position.x += 4
             }
-            if (flag == 1) {
-                mesh.scale.setScalar(0.009);
-                mesh.position.z -= 4.4
-                mesh.position.y -= 3.7
-                mesh.position.x -= 3.2 +11
-            }
+
            // mesh.scale.setScalar(103);
             scene.add(mesh)
           //  oulu[11].visible = false
@@ -733,38 +721,23 @@ function myFunction(event) {
 
     if (tripArray.length > 0) { return }
 
-    //var www = rect.right - rect.left
-   // var hhh = rect.bottom - rect.top
-   // var xpos = (event.clientX - rect.left) / www
-   // var ypos = (event.clientY - rect.top) / hhh
-
-    var www = window.innerWidth
-    var hhh = window.innerHeight
-    
-    var xpos = (event.clientX) / www
-    var ypos = (event.clientY) / hhh
-
-
-
     var pointer = new THREE.Vector3(
-        (xpos) * 2 - 1,
-        - (ypos) * 2 + 1,
+        ((event.clientX) / www) * 2 - 1,
+        - ((event.clientY) / hhh) * 2 + 1,
         0.5);
 
     
     
     raycaster.setFromCamera(pointer, camera);
-
     intersects = raycaster.intersectObjects(scene.children);
 
     if (intersects.length > 0) {
         if (intersects[0].object.name == 'start') {
-            intro.visible = false
-            loader5.load('./ouluitems/pp_logo.svg', function (data2) { loadload(data2, 0) });
-
+            temp3.visible = false
+  
         }
 
-        if (intro.visible == true) { return }
+        if (temp3.visible == true) { return }
 
 
         if (intersects[0].object.name.substring(0, 8) == 'Gohere') {
@@ -1021,13 +994,6 @@ function animate() {
 
   
 
-
-  //  spotLights[3].visible = true
-//spotLights[3].target = circle
-
-
-
-
     if (doornro > -1) { 
         if (doors[doornro].rotation.y > -1.5 * Math.PI / 2) {
             doors[doornro].rotation.y -= 0.03
@@ -1070,10 +1036,6 @@ function animate() {
     if (tripArray.length > 0) {
 
 
-    
-
-
-
         camera.position.x = tripArray[0]
         camera.position.y = tripArray[1]
         camera.position.z = tripArray[2]
@@ -1113,16 +1075,11 @@ function animate() {
 
 
 
-
-
-
-
-
-    if (roomnro == 0 && automove == 1) {
+    if (roomnro == 0) {
         angle -= 0.01
 
 
-        if (intro.visible == true) { angle = 0 }
+        if (temp3.visible == true) { angle = 0 }
 
 
        // angle=0
