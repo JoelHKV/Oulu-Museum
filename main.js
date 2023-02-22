@@ -55,20 +55,30 @@ function onWindowResize() {
 
 onWindowResize()
 
-// this function contains the creation of a miniature table that will be replaced by a glb model
-// in real life applications
 
 
 
+const edgeMaterial = new THREE.MeshStandardMaterial({ color: 0xcccccc });
+const doormaterial = new THREE.MeshStandardMaterial({ color: 0xaa00aa });
+const textmaterial = new THREE.MeshStandardMaterial({ color: 0x000000 });
 
-var edgeMaterial = new THREE.LineDashedMaterial({
-    color: 0xcccccc
-});
+var circle = []
 
 
-
-const minioulu = miniaturetable(edgeMaterial, './ouluitems/ouluplane.png')
+const minioulu = miniaturetable(doormaterial, edgeMaterial, './ouluitems/ouluplane.png')
 scene.add(minioulu)
+
+
+
+
+
+
+
+//spotLights[3].target = circle[0]
+
+
+
+
 
 
 const followObject = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), edgeMaterial);
@@ -98,8 +108,6 @@ wallMaterials[4] = new THREE.MeshStandardMaterial({ map: textureLoader.load('./o
 
 
 
-const doormaterial = new THREE.MeshStandardMaterial({ color: 0xaa00aa });
-const textmaterial = new THREE.MeshStandardMaterial({ color: 0x000000 });
 
 const doors = []
 
@@ -194,8 +202,6 @@ spotLights[3].position.x = 0
 spotLights[3].position.y = 3
 spotLights[3].position.z = 11
 spotLights[3].angle = 0.07
-//spotLights[3].visible = true
-//spotLights[3].target = circle
 
 
 
@@ -277,35 +283,13 @@ scene.add(naviball)
 
 
 
-var circleGeometry = new THREE.CircleGeometry(0.35, 15);
-
-var circle = new THREE.Mesh(circleGeometry, doormaterial);
-circle.rotation.x = Math.PI / 2
 
 
-circle.rotation.y = Math.PI 
-circle.position.z = 11;
-circle.position.y = -0.5;
-//circle.visible = false
-var circle2 = circle.clone()
-var circle3 = circle.clone()
-scene.add(circle, circle2, circle3);
-
-circle.visible = false; circle2.visible = false; circle3.visible = false;
-
-circle.position.x+=1
-circle.position.z -= 0.2
-circle.name = 'kirkko'
-circle2.position.x += 0.8
-circle2.position.z -= 1.27
-circle2.name = 'ainola'
-circle3.position.x += 0.3
-circle3.position.z += 0.06
-circle3.name = 'ktalo'
-
-spotLights[3].target = circle
-
-
+function circleshow(state) {
+    for (let i = 0; i < 3; i++) {
+        circle[i].visible = state
+    }
+}
 
 
 
@@ -477,8 +461,7 @@ function ouluitems(model, item) {
         oulu[item].position.z += 1
         oulu[item].position.x += 12
         oulu[item].rotation.y = Math.PI / 4;
-       // spotLights[3].target = oulu[item]
-
+ 
     }
     if (item == 1) {
        
@@ -486,8 +469,7 @@ function ouluitems(model, item) {
         oulu[item].scale.setScalar(0.85);
         oulu[item].position.y = -4.4 
         oulu[item].rotation.y = Math.PI / 4;
-       // oulu[item].rotation.x = Math.PI / 2;
-
+ 
         oulu[item].rotation.z = Math.PI ;
         oulu[item].position.z -= 0.8
 
@@ -646,9 +628,8 @@ function myFunction(event) {
 
        
         if (intersects[0].object.name == 'kirkko') {
-            circle.visible = false; circle2.visible = false; circle3.visible = false;
-          //  spotLights[3].target = oulu[3]
-         //   spotLights[3].visible = true
+            circleshow(false)
+
             var startend = [camera.position.x, camera.position.y, camera.position.z]
             var forseend = [0, 1, 15]
             var step1 = [startend[0] + 1.5, startend[1] - 1.7, startend[2] - 2.9]
@@ -662,9 +643,8 @@ function myFunction(event) {
 
 
         if (intersects[0].object.name == 'ainola') {
-          //  spotLights[3].target = oulu[4]
-          //  spotLights[3].visible = true
-            circle.visible = false; circle2.visible = false; circle3.visible = false;
+ 
+            circleshow(false)
             var startend = [camera.position.x, camera.position.y, camera.position.z]
             var forseend = [0,1,15]
             var step1 = [startend[0] + 2, startend[1] - 1.8, startend[2] - 4.5]
@@ -677,9 +657,8 @@ function myFunction(event) {
         }
 
         if (intersects[0].object.name == 'ktalo') {
-          //  spotLights[3].target = circle3
-         //   spotLights[3].visible = true
-            circle.visible = false; circle2.visible = false; circle3.visible = false;
+
+            circleshow(false)
             var startend = [camera.position.x, camera.position.y, camera.position.z]
             var forseend = [0, 1, 15]
             var step1 = [startend[0] + 1.0, startend[1] - 1.8, startend[2] - 4]
@@ -753,7 +732,7 @@ function myFunction(event) {
 
 
             if (camera.position.z > 5) {
-                circle.visible = false; circle2.visible = false; circle3.visible = false;
+                circleshow(false)
                 maketarget([followObject.position.x, followObject.position.y, followObject.position.z, 0, 0, 0])
                 maketrip([camera.position.x, camera.position.y, camera.position.z, -3, 1, 14, -3, 1, 8,  0, -0.5, 4], 10)
                 angle = 0
@@ -878,17 +857,20 @@ function animate() {
     requestAnimationFrame(animate) 
   //  angle -= 0.01
 
-    if (circle.visible == true) {
+    if (circle[0].visible == true) {
         flickcounter++
-        if (flickcounter < 40) { spotLights[3].target = circle }
-        if (flickcounter > 39 && flickcounter < 80) { spotLights[3].target = circle2 }
-        if (flickcounter > 79) { spotLights[3].target = circle3 }
-        if (flickcounter > 119) { flickcounter =-1}
-        spotLights[3].visible = true
-    }
-    else {
-        flickcounter = 0
-        spotLights[3].visible =false
+
+
+
+      //  if (flickcounter < 40) { spotLights[3].target = circle }
+     //   if (flickcounter > 39 && flickcounter < 80) { spotLights[3].target = circle2 }
+     //   if (flickcounter > 79) { spotLights[3].target = circle3 }
+    //    if (flickcounter > 119) { flickcounter =-1}
+  //      spotLights[3].visible = true
+ //   }
+  //  else {
+ //       flickcounter = 0
+ //       spotLights[3].visible =false
     }
 
   
@@ -953,7 +935,7 @@ function animate() {
         //    camera.position.y =1
             
 
-            circle.visible = true; circle2.visible = true; circle3.visible = true; 
+            circleshow(true) 
         }
 
         if (camera.position.x > 6 && tripArray.length < 2) {
@@ -1050,7 +1032,7 @@ function Writewrite(texttext, thismaterial, xxx, yyy, zzz, thisvisible, thiscent
 
 
 
-function miniaturetable(edgeMaterial, pathtoplane) {
+function miniaturetable(doormaterial, edgeMaterial, pathtoplane) {
 
     const minioulu = new THREE.Group();
     var vitrineMaterial = new THREE.MeshBasicMaterial({
@@ -1126,6 +1108,30 @@ function miniaturetable(edgeMaterial, pathtoplane) {
 
     minioulu.add(oulutable, topPlane)
     minioulu.rotation.y = Math.PI
+
+    var circleGeometry = new THREE.CircleGeometry(0.35, 15);
+
+    for (let i = 0; i < 3; i++) {
+
+
+        var posx = [1, 0.8, 0.3]
+        var posz = [-0.2, -1.27, 0.06]
+        var cicrlename = ['kirkko', 'ainola', 'ktalo']
+
+        circle[i] = new THREE.Mesh(circleGeometry, doormaterial);
+        circle[i].rotation.x = Math.PI / 2
+
+        circle[i].rotation.y = Math.PI
+        circle[i].position.z = 11;
+        circle[i].position.y = -0.5;
+
+        circle[i].visible = false;
+        scene.add(circle[i])
+        circle[i].position.x += posx[i]
+        circle[i].position.z += posz[i]
+        circle[i].name = cicrlename[i]
+
+    }
 
     return minioulu
 }
