@@ -69,77 +69,39 @@ const minioulu = miniaturetable(doormaterial, edgeMaterial, './ouluitems/oulupla
 scene.add(minioulu)
 
 
-
-
-
-
-
 //spotLights[3].target = circle[0]
-
-
-
 
 
 
 const followObject = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), edgeMaterial);
 
 
-
-var roomx = 10
-var roomy = 10
-var roomz = 10
-
-
-
-const roomGeometry = new THREE.BoxGeometry(roomx, roomy, 1);
-const roomGeometry2 = new THREE.BoxGeometry(roomx-7, roomy, 1);
-const roomGeometry3 = new THREE.BoxGeometry(roomx, roomy - 7, 1);
-const doorGeometry = new THREE.BoxGeometry(4, 7, 1);
-
-
-const wallMaterials = []
-// 0x988064
-wallMaterials[0] = new THREE.MeshStandardMaterial({ color: 0x988064 });
-wallMaterials[1] = new THREE.MeshStandardMaterial({ color: 0x000055});
-wallMaterials[2] = new THREE.MeshStandardMaterial({ map: textureLoader.load('./ouluitems/brickwall.png') });
-wallMaterials[3] = new THREE.MeshStandardMaterial({ map: textureLoader.load('./ouluitems/concretewall.png') });
-wallMaterials[4] = new THREE.MeshStandardMaterial({ map: textureLoader.load('./ouluitems/concretewall.png') });
-
-
-
-
-
 const doors = []
 
 
-function wallwithdoorhole(wallMaterial,textcontainer,i) {
+function wallwithdoorhole(wallMaterial, textcontainer, i) {
 
- 
+    var roomx = 10
+    var roomy = 10
+
+    const roomGeometry2 = new THREE.BoxGeometry(roomx - 7, roomy, 1);
+    const roomGeometry3 = new THREE.BoxGeometry(roomx, roomy - 7, 1);
+    const doorGeometry = new THREE.BoxGeometry(4, 7, 1);
+
     const wallhole = new THREE.Group();
 
-    if (i == 2) {
-        wallhole.add(arrow.clone())
-    }
-
-
-    if (i == 2) { wallMaterial=wallMaterials[4] }
 
 
     const walla = new THREE.Mesh(roomGeometry2, wallMaterial);
-    // walla.position.z = -roomz / 2;
     walla.position.x += 3.5
 
     const wallb = new THREE.Mesh(roomGeometry2, wallMaterial);
-    // wallb.position.z = -roomz / 2;
     wallb.position.x -= 3.5
 
     const wallc = new THREE.Mesh(roomGeometry3, wallMaterial);
-    //  wallc.position.z = -roomz / 2;
     wallc.position.y += 3.5
 
     const thisdoor = new THREE.Group();
-
-
 
 
     if (i == 0) {
@@ -155,7 +117,8 @@ function wallwithdoorhole(wallMaterial,textcontainer,i) {
         thistext.position.x -= 2
         thistext2.position.x -= 2
         thistext3.position.x -= 2
-        thistext3.rotation.y = Math.PI
+        thistext.rotation.y = Math.PI
+        thistext2.rotation.y = Math.PI
         thistext3.position.z += 1
 
         thisdoor.add(thistext)
@@ -178,9 +141,9 @@ function wallwithdoorhole(wallMaterial,textcontainer,i) {
 
 
 var spotLights = []
-for (let i = 0; i < 4; i++) {
+for (let i = 0; i < 5; i++) {
     spotLights[i] = new THREE.SpotLight(0xffffff, 0.6);
-    spotLights[i].angle = 0.65
+    spotLights[i].angle = 0.78
     spotLights[i].position.x = -11
     spotLights[i].position.y = 0
     scene.add(spotLights[i]);
@@ -188,70 +151,23 @@ for (let i = 0; i < 4; i++) {
 }
 
 
-spotLights[3].position.x = 0
-spotLights[3].position.y = 3
-spotLights[3].position.z = 11
-spotLights[3].angle = 0.07
+spotLights[4].position.x = 0
+spotLights[4].position.y = 3
+spotLights[4].position.z = 11
+spotLights[4].angle = 0.07
 
 
 
-// Create a frame geometry
+var clickframeGeometry = new THREE.BoxGeometry(5.3, 5.3, 1.09);
 var frameGeometry = new THREE.BoxGeometry(5.2, 5.2, 1.1);
-//var frameGeometry = new THREE.BoxGeometry(5.6, 4.5, 1.1);
 var paintingGeometry = new THREE.BoxGeometry(4.8, 4.8, 1.11);
-var frameMaterial = new THREE.MeshLambertMaterial({ color: 0x000000 });
 
-
-
-
-
-//var frame = []
-var paintingMaterial = []
-var paingints = []
-//var paintingfiles = ['/art_pieces/tarburning.png', '/art_pieces/riverfishing.png', '/art_pieces/oldhouse.png', '/art_pieces/Franzen.png', '/oulufinland.png']
-var paintingfiles = ['./ouluitems/oldhouse2.png', './ouluitems/riverfishing.png', './ouluitems/riverburning.png', './ouluitems/Franzen.png', './ouluitems/oulufinland.png', './ouluitems/starttext.png', './ouluitems/tauno.jpg']
-
-
-
-
-var arrowShape = new THREE.Shape();
-arrowShape.moveTo(-1, -0.5);
-arrowShape.lineTo(-1, 0.5);
-arrowShape.lineTo(0, 0.5);
-arrowShape.lineTo(0, 1);
-arrowShape.lineTo(0.2, 1);
-arrowShape.lineTo(0.7, 0);
-arrowShape.lineTo(0.2, -1);
-arrowShape.lineTo(0, -1);
-arrowShape.lineTo(0, -0.5);
-arrowShape.lineTo(-1, -0.5);
-var arrowGeometry = new THREE.ExtrudeGeometry(arrowShape, {
-    depth: 0.8,
-    bevelEnabled: false
-});
-
-
-var arrow = new THREE.Mesh(arrowGeometry, doormaterial);
-//scene.add(arrow)
-arrow.name ='Turn90'
-arrow.scale.setScalar(0.8)
-arrow.rotation.y = Math.PI
-arrow.position.x = -3.5
-arrow.position.z = -0.0
-
-
-var arrow2 = arrow.clone()
-arrow2.rotation.y = Math.PI
-arrow2.position.z += 0
-arrow2.position.x += 7
-
+const frameMaterial = new THREE.MeshStandardMaterial({ color: 0x000000 });
 
 
 const naviball = new THREE.Group();
 addnaviball(doormaterial)
 scene.add(naviball)
-
-
 
 
 var roomxx = 10
@@ -269,14 +185,7 @@ roommaterials[1] = new THREE.MeshStandardMaterial({ map: textureLoader.load('./o
 roommaterials[2] = new THREE.MeshStandardMaterial({ color: 0x988064 });
 roommaterials[3] = new THREE.MeshStandardMaterial({ map: textureLoader.load('./ouluitems/brickwall.png') });
 roommaterials[4] = new THREE.MeshStandardMaterial({ map: textureLoader.load('./ouluitems/concretewall.png') });
-
-//wallMaterials[0] = new THREE.MeshStandardMaterial({ color: 0x988064 });
-//wallMaterials[1] = new THREE.MeshStandardMaterial({ color: 0x000055 });
-//wallMaterials[2] = new THREE.MeshStandardMaterial({ map: textureLoader.load('./ouluitems/brickwall.png') });
-//wallMaterials[3] = new THREE.MeshStandardMaterial({ map: textureLoader.load('./ouluitems/concretewall.png') });
-//wallMaterials[4] = new THREE.MeshStandardMaterial({ map: textureLoader.load('./ouluitems/concretewall.png') });
-
-//var paintingfiles = ['./ouluitems/oldhouse2.png', './ouluitems/riverfishing.png', './ouluitems/riverburning.png', './ouluitems/Franzen.png', './ouluitems/oulufinland.png', './ouluitems/starttext.png', './ouluitems/tauno.jpg']
+roommaterials[5] = new THREE.MeshStandardMaterial({ color: 0x000055 });
 
 
 const paintingmaterials = []
@@ -287,26 +196,35 @@ paintingmaterials[2] = new THREE.MeshStandardMaterial({ map: textureLoader.load(
 paintingmaterials[3] = new THREE.MeshStandardMaterial({ map: textureLoader.load('./ouluitems/oulufinland.png') });
 paintingmaterials[4] = new THREE.MeshStandardMaterial({ map: textureLoader.load('./ouluitems/starttext.png') });
 paintingmaterials[5] = new THREE.MeshStandardMaterial({ map: textureLoader.load('./ouluitems/tauno.jpg') });
+paintingmaterials[6] = new THREE.MeshStandardMaterial({ map: textureLoader.load('./ouluitems/Franzen.png') });
 
 
 
-const roomcontent = new Array(1);
+const roomcontent = []
 
-for (let i = 0; i < 1; i++) {
+for (let i = 0; i < 4; i++) {
     roomcontent[i] = new Array(6);
 
     for (let j = 0; j < 6; j++) {
         // Calculate the value for each element based on its row and column
         if (j == 0) { roomcontent[i][j] = '0' }
         if (j == 5) { roomcontent[i][j] = '1' }
-        if (j > 0 && j < 5 ) { roomcontent[i][j] = '2' }
-        
+        if (j > 0 && j < 5 && i==0) { roomcontent[i][j] = '2' }
+        if (j > 0 && j < 5 && i == 1) { roomcontent[i][j] = '5' }
+        if (j > 0 && j < 5 && i == 2) { roomcontent[i][j] = '3' }
+        if (j ==1 && i == 2) { roomcontent[i][j] = '4' }
+        if (j > 0 && j < 5 && i == 3) { roomcontent[i][j] = '4' }
+        var tempadd = ',0'
+        if (i == 0 && j == 1) { var tempadd = ',1' }
+        if (i == 0 && j == 2) { var tempadd = ',2' }
+        if (i == 0 && j == 3) { var tempadd = ',3' }
+        if (i == 1 && j == 2) { var tempadd = ',1' }
+        if (i == 2 && j == 1) { var tempadd = ',2' }
+        if (i == 3 && j == 4) { var tempadd = ',3' }
+        roomcontent[i][j] = roomcontent[i][j] + tempadd
     }
 }
 
-roomcontent[0][1] = roomcontent[0][1] + ',1'
-roomcontent[0][2] = roomcontent[0][2] + ',1'
-roomcontent[0][3] = roomcontent[0][3] + ',1'
 
 roomcontent[0][4] = roomcontent[0][4] + ',T_0_3_0.008_Pohjois-'
 roomcontent[0][4] = roomcontent[0][4] + ',T_0_2_0.008_Pohjanmaan'
@@ -314,32 +232,36 @@ roomcontent[0][4] = roomcontent[0][4] + ',T_0_0.8_0.008_museo'
 roomcontent[0][4] = roomcontent[0][4] + ',T_-2.7_-3.4_0.003_Tauno Tonning'
 
 roomcontent[0][4] = roomcontent[0][4] + ',P_-2_-2_0.5_0.5_5'
+roomcontent[2][3] = roomcontent[2][3] + ',PF1_0_0_1_1_0'
+roomcontent[2][2] = roomcontent[2][2] + ',PF0_0_0_1_1_1'
+roomcontent[2][4] = roomcontent[2][4] + ',PF2_0_0_1_1_2'
+roomcontent[2][1] = roomcontent[2][1] + ',PF3_-3.2_0_0.4_0.5_6'
+
+roomcontent[3][3] = roomcontent[3][3] + ',P_0_0.4_1_1.2_3'
 
 const rooms = [];
 
-for (let i = 0; i < 1; i++) {
+for (let i = 0; i < 4; i++) {
     rooms[i] = new THREE.Group();
 
     for (let j = 0; j < 6; j++) {
         const infostring = roomcontent[i][j]
         const arr = infostring.split(",");
         const thismaterial = roommaterials[Number(arr[0])]
+ 
         if (Number(arr[1]) == 1) {
-            var thiswallGeometry = new THREE.BoxGeometry(wallw[j], wallh[j] - 7, 1);
-            var thiswall = new THREE.Mesh(thiswallGeometry, thismaterial);
-            thiswall.position.y += 3.5
-            var thiswallGeometry = new THREE.BoxGeometry(wallw[j] - 7, wallh[j]-3, 1);
-            var thiswall2 = new THREE.Mesh(thiswallGeometry, thismaterial);
-            thiswall2.position.x += 3.5
-            thiswall2.position.y -= 5
-            thiswall.add(thiswall2)
-            var thiswall3 = thiswall2.clone()
-            thiswall3.position.x -= 7
-            thiswall.add(thiswall3)
+            var thiswall = wallwithdoorhole(thismaterial, ['Laiva', 'Toivo'], i)
         }
-        else {
+        if (Number(arr[1]) == 2) {
+            var thiswall = wallwithdoorhole(thismaterial, ['Oulu', 'Art'], i)
+        }
+        if (Number(arr[1]) == 3) {
+            var thiswall = wallwithdoorhole(thismaterial, ['Mini-', 'Oulu'], i) 
+        }     
+        if (Number(arr[1]) == 0) {
             var thiswallGeometry = new THREE.BoxGeometry(wallw[j], wallh[j], 1);
             var thiswall = new THREE.Mesh(thiswallGeometry, thismaterial);
+          
         }
 
         for (let k = 0; k < arr.length; k++) {
@@ -351,33 +273,41 @@ for (let i = 0; i < 1; i++) {
                 var arr2 = arr[k].split("_");
                //thiswall.add(new THREE.Mesh(frameGeometry, frameMaterial))
 
-                var temp = new THREE.Mesh(frameGeometry, frameMaterial)
-                temp.position.y = Number(arr2[2])
-                temp.position.x = Number(arr2[1])
 
-                temp.scale.y = Number(arr2[4])
-                temp.scale.x = Number(arr2[3])
-                thiswall.add(temp)
+                var temppaint = []
+                temppaint[0] = new THREE.Mesh(frameGeometry, frameMaterial)
+                temppaint[1] = new THREE.Mesh(paintingGeometry, paintingmaterials[Number(arr2[5])])
+                temppaint[2] = new THREE.Mesh(clickframeGeometry, doormaterial)
 
-                var temp2 = new THREE.Mesh(paintingGeometry, paintingmaterials[Number(arr2[5])])
-                temp2.position.y = Number(arr2[2])
-                temp2.position.x = Number(arr2[1])
+                var nrolayers = 2
+                if (arr[k][1] == 'F') {
+                    var numnum = Number(arr[k][2])
+                    if (numnum > -1 && numnum < 4) {
+                        spotLights[numnum].target = thiswall
+                    }
+                    nrolayers = 3
+                    temppaint[0].name = 'Turn90'
+                    temppaint[1].name = 'Turn90'
+                    temppaint[2].name = 'Turn90'
+                }
 
-                temp2.scale.y = Number(arr2[4])
-                temp2.scale.x = Number(arr2[3])
-                thiswall.add(temp2)
 
+                for (let p = 0; p < nrolayers; p++) {
+                    temppaint[p].position.y = Number(arr2[2])
+                    temppaint[p].position.x = Number(arr2[1])
 
+                    temppaint[p].scale.y = Number(arr2[4])
+                    temppaint[p].scale.x = Number(arr2[3])         
+                    thiswall.add(temppaint[p])
+
+                }
 
             }
         }
-
         
-        //thiswall.add(new THREE.Mesh(frameGeometry, frameMaterial))
-
-
+        
         if (j == 0) {thiswall.position.y = -roomyy / 2; thiswall.rotation.x = Math.PI / 2;}
-        if (j == 1) {thiswall.position.x = roomxx / 2;thiswall.rotation.y = Math.PI / 2;}
+        if (j == 1) {thiswall.position.x = roomxx / 2; thiswall.rotation.y = Math.PI / 2;}
         if (j == 2) {thiswall.position.x = -roomxx / 2;thiswall.rotation.y = -Math.PI / 2; }
         if (j == 3) {thiswall.position.z = roomzz / 2; }
         if (j == 4) {thiswall.position.z = -roomzz / 2; }
@@ -390,131 +320,19 @@ for (let i = 0; i < 1; i++) {
 }
 
 
-
-
-const groups = [];
-
-for (let i = 0; i < 4; i++) {
-
-    groups[i] = new THREE.Group();
-
-
-
-
-    const floorMaterial = new THREE.MeshStandardMaterial({ map: textureLoader.load('./ouluitems/floor-texture.png') });
-    const floor = new THREE.Mesh(roomGeometry, floorMaterial);
-    floor.position.y = -roomy / 2;
-    floor.rotation.x = Math.PI / 2;
-
-    if (i == 0 || i == 2) { var wall1 = wallwithdoorhole(wallMaterials[i], ['Laiva', 'Toivo'], i) } else { var wall1 = new THREE.Mesh(roomGeometry, wallMaterials[i]); }
-
-    wall1.position.x = roomx / 2;
-    wall1.rotation.y = Math.PI / 2;
-
-    if (i == 0 || i == 1) { var wall2 = wallwithdoorhole(wallMaterials[i], ['Oulu', 'Art'], i) } else { var wall2 = new THREE.Mesh(roomGeometry, wallMaterials[i]); }
-    if (i == 2) {
-        wall2.add(new THREE.Mesh(frameGeometry, frameMaterial))
-        var paintingMaterial = new THREE.MeshStandardMaterial({ map: textureLoader.load(paintingfiles[2]) });
-        wall2.add(new THREE.Mesh(paintingGeometry, paintingMaterial))
-        wall2.add(arrow.clone())
-        spotLights[0].target = wall2
-    }
-    wall2.position.x = -roomx / 2;
-    wall2.rotation.y = -Math.PI / 2;
-
-    if (i == 0 || i == 4) { var wall3 = wallwithdoorhole(wallMaterials[i], ['Mini-', 'Oulu'], i) } else { var wall3 = new THREE.Mesh(roomGeometry, wallMaterials[i]); }
-
-    // const wall3 = new THREE.Mesh(roomGeometry, wallMaterial);
-    if (i == 2) {
-        wall3.add(new THREE.Mesh(frameGeometry, frameMaterial))
-        var paintingMaterial = new THREE.MeshStandardMaterial({ map: textureLoader.load(paintingfiles[1]) });
-        wall3.add(new THREE.Mesh(paintingGeometry, paintingMaterial))
-        wall3.add(arrow.clone())
-        spotLights[1].target = wall3
-    }
-    if (i == 3) {
-        var temp = new THREE.Mesh(frameGeometry, frameMaterial)
-        temp.scale.y = 2
-        wall3.add(temp)
-        // wall3.add(arrow.clone())
-        var paintingMaterial = new THREE.MeshStandardMaterial({ map: textureLoader.load(paintingfiles[4]) });
-        var temp2 = new THREE.Mesh(paintingGeometry, paintingMaterial)
-        temp2.scale.y = 2
-        wall3.add(temp2)
-
-    }
-
-
-
-    wall3.position.z = roomz / 2;
-    if (i == -1 || i == 3) { var wall4 = wallwithdoorhole(wallMaterials[i], ['Mini-', 'Oulu'], i) } else { var wall4 = new THREE.Mesh(roomGeometry, wallMaterials[i]); }
-    wall4.position.z = - roomz / 2;
-    if (i == 2) {
-        wall4.add(new THREE.Mesh(frameGeometry, frameMaterial))
-        var paintingMaterial = new THREE.MeshStandardMaterial({ map: textureLoader.load(paintingfiles[0]) });
-        wall4.add(new THREE.Mesh(paintingGeometry, paintingMaterial))
-        wall4.add(arrow2.clone())
-
-        spotLights[2].target = wall4
-    }
-    //wall3.rotation.y = -Math.PI / 2;
-
-
-    if (i == 0) {
-        var temp = new THREE.Mesh(frameGeometry, frameMaterial)
-        temp.position.y -= 1.6
-        temp.scale.x = 0.5
-        temp.scale.y = 0.75
-        temp.position.x -= 2.7
-        wall4.add(temp)
-        var paintingMaterial = new THREE.MeshStandardMaterial({ map: textureLoader.load(paintingfiles[6]) });
-        var temp2 = new THREE.Mesh(paintingGeometry, paintingMaterial)
-        temp2.position.y -= 1.6
-        temp2.position.x -= 2.7
-        temp2.scale.x = 0.50
-        temp2.scale.y = 0.75
-        wall4.add(temp2)
-        var paintingMaterial = new THREE.MeshStandardMaterial({ map: textureLoader.load(paintingfiles[5]) });
-        var temp3 = new THREE.Mesh(paintingGeometry, paintingMaterial)
-        temp3.name = 'start'
-        temp3.position.y += 3.4
-        temp3.position.x += 3.0
-        temp3.scale.x = 0.6
-        temp3.scale.y = 0.6
-        wall4.add(temp3)
-
-    }
-
-
-
-
-
-    const ceilingMaterial = new THREE.MeshStandardMaterial({ map: textureLoader.load('./ouluitems/ceiling-texture2.png') });
-    const ceiling = new THREE.Mesh(roomGeometry, ceilingMaterial);
-    ceiling.position.y = roomy / 2;
-    ceiling.rotation.x = -Math.PI / 2;
-
-
-    if (i == 0) {
-        groups[i].add(floor, wall1, wall2, wall3, wall4, ceiling);
-    }
-    else { groups[i].add(floor, wall1, wall2, wall3, wall4, ceiling); }
-    scene.add(groups[i])
-}
-
-
-
-
-
-
-
-
-
-
-groups[1].position.x += 11
-groups[2].position.x -= 11
-groups[3].position.z += 11
+rooms[1].position.x += 11
+rooms[2].position.x -= 11
+rooms[3].position.z += 11
 minioulu.position.z += 11
+
+
+var temp3 = new THREE.Mesh(paintingGeometry, paintingmaterials[4])
+temp3.name = 'start'
+temp3.position.y += 3.4
+temp3.position.x += 3.0
+temp3.scale.x = 0.6
+temp3.scale.y = 0.6
+scene.add(temp3)
 
 
 const pointLight = new THREE.PointLight(0xffffff, 0.4);
@@ -538,7 +356,7 @@ const loader2 = new GLTFLoader();
 loader2.load('./ouluitems/PositiveSnowflake_sunset_extended.glb', function (model) { glbtopos(model.scene, [10.2 - 0.2, -4.4, -0.8 - 0.2, 0, Math.PI / 4, Math.PI, 0.85], 0) });
 loader2.load('./ouluitems/PositiveSnowflake_sunset_extended.glb', function (model) { glbtopos(model.scene, [10.2 + 1.8, -4.4, -0.8 + 1.8, 0, Math.PI / 4, Math.PI, 0.85], 0) });
 
-loader2.load('ouluitems/toivo_prop3.glb', function (model) { glbtopos(model.scene, [12, -1.55, 1, 0, Math.PI / 4, 0, 0.32], 0) });
+loader2.load('./ouluitems/toivo_prop3.glb', function (model) { glbtopos(model.scene, [12, -1.55, 1, 0, Math.PI / 4, 0, 0.32], 0) });
 loader2.load('./ouluitems/blue2026.glb', function (model) { glbtopos(model.scene, [15.5, 1.8, 0, 0, -Math.PI / 2, 0, 1], 0) });
 loader2.load('./ouluitems/ouluCoat.glb', function (model) { glbtopos(model.scene, [-4.4, 1, 10, 0, Math.PI, 0, 1.4],0) });
 
@@ -604,10 +422,6 @@ function svgtopos(data2, svgpos) {
     }
 }
 
-
-function naviballvisible(stt) {
-    naviball.visible = stt
-}
 
 
 renderer.domElement.addEventListener("click", myFunction);
@@ -683,15 +497,12 @@ function myFunction(event) {
             maketarget(startendtarget.concat(targetxx, targetxx, targetxx, startendtarget))
         }
 
-
-
-
         if (intersects[0].object.name == 'Turn90') {
 
             spotLights[0].visible = false;
             spotLights[1].visible = false;
             spotLights[2].visible = false;
-           
+            spotLights[3].visible = false;
             if (followObject.position.x == -15) { var endangle = [-11, followObject.position.y, -4] }
             if (followObject.position.z == 4) { var endangle = [-15, followObject.position.y, 0] }
             if (followObject.position.x == -7) { var endangle = [-11, followObject.position.y, 4] }
@@ -699,13 +510,9 @@ function myFunction(event) {
        
             maketarget([followObject.position.x, followObject.position.y, followObject.position.z, endangle[0], endangle[1], endangle[2]])
 
-                return
-           
+                return      
         }
         
-
-
-
         if (intersects[0].object.name == 'Laiva') {
             if (camera.position.x > 5) {
                 angle =  Math.PI / 2
@@ -729,7 +536,8 @@ function myFunction(event) {
         if (intersects[0].object.name == 'Oulu') {
 
             if (camera.position.x <-5) {
-                angle =  - Math.PI / 2
+                angle = - Math.PI / 2
+                spotLights[3].visible = false;
                 maketarget([followObject.position.x, followObject.position.y, followObject.position.z, 0, 0, 0])
                 maketrip([camera.position.x, camera.position.y, camera.position.z, -4, -0.5, 0], 10)
                 roomnro = 0
@@ -761,11 +569,8 @@ function myFunction(event) {
             doornro = 2
         }
 
- 
     }
 
-  
-  
 }
 
 function maketrip(temp,mave) {
@@ -798,7 +603,6 @@ function maketrip(temp,mave) {
 
 }
 
-
 function movingAverage(arr,ste) {
     let result = [];
     let windowSum = 0;
@@ -819,8 +623,6 @@ function movingAverage(arr,ste) {
 }
  
 
-
-
 function maketarget(temp) {
 
     for (let j = 0; j < ((temp.length) / 3 - 1); j++) {
@@ -840,14 +642,8 @@ function maketarget(temp) {
 }
 
 
-
-
-
-
 var tripArray=[]
 var targetArray = []
-
-
 
 var doornro = -1
 var roomnro = 0
@@ -861,11 +657,11 @@ function animate() {
     if (circle[0].visible == true) {      
         flickcounter++
         if (flickcounter > 119) { flickcounter = 0 }
-        spotLights[3].target = circle[2-Math.floor(flickcounter / 40)]
-        spotLights[3].visible = true
+        spotLights[4].target = circle[2-Math.floor(flickcounter / 40)]
+        spotLights[4].visible = true
     }
     else {
-        spotLights[3].visible =false
+        spotLights[4].visible =false
     }
 
   
@@ -888,8 +684,6 @@ function animate() {
         }
    }
 
-
-
     if (targetArray.length > 0) {
 
         //alert(targetArray)
@@ -902,14 +696,13 @@ function animate() {
             if (followObject.position.x == -15) { spotLights[0].visible = true }
             if (followObject.position.x == -11 && followObject.position.z == -4) { spotLights[2].visible = true }
             if (followObject.position.x == -11 && followObject.position.z == 4) { spotLights[1].visible = true }
-         
-        
+            if (followObject.position.x == -7 && followObject.position.z == 0) { spotLights[3].visible = true }
+             
         }
       
     }
 
     if (tripArray.length > 0) {
-
 
         camera.position.x = tripArray[0]
         camera.position.y = tripArray[1]
@@ -917,18 +710,12 @@ function animate() {
 
         tripArray.splice(0, 3);
 
-
         if (camera.position.x > 4.4 && camera.position.x < 4.6) { doornro = -1; }
         if (camera.position.x > -4.6 && camera.position.x < -4.4) { doornro = -1 }
         if (camera.position.z > 4.4 && camera.position.z < 4.6) { doornro = -1 }
 
-     
         if (camera.position.z > 14.6 && camera.position.x < 0.1 && tripArray.length < 20) {
-         //   camera.position.z = 15
-         //   camera.position.x = 0
-        //    camera.position.y =1
-            
-
+         //   camera.position.z = 15  camera.position.x = 0  camera.position.y =1
             circleshow(true) 
         }
 
@@ -940,14 +727,11 @@ function animate() {
             
         }
 
-
-
         camera.lookAt(followObject.position);
         renderer.render(scene, camera);
 
         return
     }
-
 
 
     if (roomnro == 0) {
@@ -1128,8 +912,6 @@ function miniaturetable(doormaterial, edgeMaterial, pathtoplane) {
     }
 
 
-
-
     return minioulu
 }
 
@@ -1200,4 +982,8 @@ function circleshow(state) {
     for (let i = 0; i < 3; i++) {
         circle[i].visible = state
     }
+}
+
+function naviballvisible(stt) {
+    naviball.visible = stt
 }
